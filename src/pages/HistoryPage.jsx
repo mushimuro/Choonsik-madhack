@@ -24,7 +24,21 @@ const HistoryPage = () => {
     try {
       setLoading(true)
       const userForms = await getUserForms(currentUser.uid)
-      setForms(userForms)
+      
+      // Transform GCP bucket data to match the expected format
+      const transformedForms = userForms.map(form => ({
+        id: form.formId,
+        formName: form.latestFormData?.metadata?.formName || 'Unknown Form',
+        formType: form.latestFormData?.metadata?.formType || 'unknown',
+        status: form.latestFormData?.metadata?.status || 'draft',
+        createdAt: {
+          toDate: () => new Date(form.latestFormData?.metadata?.timestamp || Date.now())
+        },
+        totalFiles: form.totalFiles,
+        files: form.files,
+      }))
+      
+      setForms(transformedForms)
     } catch (error) {
       console.error('Error loading forms:', error)
     } finally {

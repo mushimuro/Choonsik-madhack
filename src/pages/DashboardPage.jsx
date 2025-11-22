@@ -24,7 +24,20 @@ const DashboardPage = () => {
     try {
       setLoading(true)
       const forms = await getUserForms(currentUser.uid)
-      setRecentForms(forms.slice(0, 5))
+      
+      // Transform GCP bucket data to match the expected format
+      const transformedForms = forms.map(form => ({
+        id: form.formId,
+        formName: form.latestFormData?.metadata?.formName || 'Unknown Form',
+        formType: form.latestFormData?.metadata?.formType || 'unknown',
+        status: form.latestFormData?.metadata?.status || 'draft',
+        createdAt: {
+          toDate: () => new Date(form.latestFormData?.metadata?.timestamp || Date.now())
+        },
+        totalFiles: form.totalFiles,
+      }))
+      
+      setRecentForms(transformedForms.slice(0, 5))
     } catch (error) {
       console.error('Error loading forms:', error)
     } finally {

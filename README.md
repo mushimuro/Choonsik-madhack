@@ -26,7 +26,10 @@ A modern web application for filling out Wisconsin and federal tax forms with ea
 ## Tech Stack
 
 - **Frontend**: React 18 with Vite
-- **Backend**: Firebase (Authentication, Firestore, Storage)
+- **Backend**: Firebase Authentication, Firebase Storage (GCP Buckets)
+- **Storage Architecture**: 
+  - `form-templates/` - Tax form PDF templates
+  - `user-tax-forms/` - User's completed forms and documents
 - **PDF Processing**: pdf-lib, react-pdf
 - **Form Management**: Formik, Yup
 - **Styling**: Custom CSS with CSS Variables
@@ -58,8 +61,7 @@ A modern web application for filling out Wisconsin and federal tax forms with ea
 3. **Set up Firebase**
    - Create a new Firebase project at [Firebase Console](https://console.firebase.google.com)
    - Enable Authentication (Email/Password)
-   - Create a Firestore database
-   - Set up Storage
+   - Set up Firebase Storage (see `docs/GCP_STORAGE_SETUP.md`)
    - Copy your Firebase configuration
 
 4. **Configure environment variables**
@@ -122,8 +124,9 @@ src/
 │   └── NotFoundPage.jsx
 ├── services/           # API and service layers
 │   ├── authService.js  # Authentication service
-│   ├── firestoreService.js # Firestore database service
-│   ├── storageService.js # Firebase Storage service
+│   ├── gcpStorageService.js # GCP Storage service (main storage)
+│   ├── storageService.js # Legacy Firebase Storage service
+│   ├── firestoreService.js # Legacy Firestore service (optional)
 │   └── pdfService.js   # PDF manipulation service
 ├── utils/              # Utility functions
 │   ├── helpers.js      # General helper functions
@@ -183,9 +186,10 @@ The application is designed to support both:
 
 See [PDF_IMPLEMENTATION_GUIDE.md](./docs/PDF_IMPLEMENTATION_GUIDE.md) for detailed instructions on implementing PDF form filling based on your form type.
 
-## Firebase Setup
+## Firebase & Storage Setup
 
-Detailed Firebase setup instructions can be found in [SETUP_GUIDE.md](./docs/SETUP_GUIDE.md).
+- **Authentication Setup**: See [SETUP_GUIDE.md](./docs/SETUP_GUIDE.md)
+- **GCP Storage Setup**: See [GCP_STORAGE_SETUP.md](./docs/GCP_STORAGE_SETUP.md)
 
 ## Contributing
 

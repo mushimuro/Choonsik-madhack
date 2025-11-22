@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext'
 import { useTaxForm } from '../contexts/TaxFormContext'
 import { toast } from 'react-toastify'
 import pdfService from '../services/pdfService'
-import storageService from '../services/storageService'
 import Card from '../components/Common/Card'
 import Button from '../components/Common/Button'
 import { FiDownload, FiEdit } from 'react-icons/fi'
@@ -14,7 +13,7 @@ const ReviewPage = () => {
   const { formId } = useParams()
   const navigate = useNavigate()
   const { currentUser } = useAuth()
-  const { currentForm, formData, uploadedDocuments } = useTaxForm()
+  const { currentForm, formData, uploadedDocuments, generateAndUploadPDF, saveFormData } = useTaxForm()
   const [generating, setGenerating] = useState(false)
 
   const handleEdit = () => {
@@ -24,24 +23,31 @@ const ReviewPage = () => {
   const handleGeneratePDF = async () => {
     try {
       setGenerating(true)
-      toast.info('Generating PDF... (Feature not fully implemented yet)')
       
-      // This is a placeholder for PDF generation
-      // In production, you would:
-      // 1. Load the PDF template
-      // 2. Fill in the form fields using pdfService
-      // 3. Save the generated PDF to storage
-      // 4. Provide download link
+      // Save form data first
+      await saveFormData(currentUser.uid, { status: 'completed' })
       
-      // Example flow:
-      // const pdfDoc = await pdfService.fillPDFForm(templateUrl, formData)
+      toast.info('Generating PDF...')
+      
+      // TODO: Implement actual PDF filling based on your template type
+      // For now, this is a placeholder that shows the flow:
+      
+      // Example flow for fillable PDF:
+      // 1. Get template URL from form-templates bucket
+      // const template = await gcpStorageService.getFormTemplate(currentForm.id, 'template.pdf')
+      // 2. Fill the PDF
+      // const pdfDoc = await pdfService.fillPDFForm(template.url, formData)
+      // 3. Convert to blob
       // const blob = await pdfService.savePDFAsBlob(pdfDoc)
-      // const result = await storageService.uploadGeneratedForm(currentUser.uid, blob, currentForm.name)
+      // 4. Upload to user-tax-forms bucket
+      // const result = await generateAndUploadPDF(currentUser.uid, blob)
+      // 5. Download
       // await pdfService.downloadPDF(pdfDoc, `${currentForm.name}.pdf`)
       
-      toast.success('PDF generation will be implemented based on your form template type!')
+      toast.success('Form saved! PDF generation will be implemented based on your template type.')
+      toast.info('See PDF_IMPLEMENTATION_GUIDE.md for implementation details')
     } catch (error) {
-      toast.error('Error generating PDF: ' + error.message)
+      toast.error('Error: ' + error.message)
     } finally {
       setGenerating(false)
     }

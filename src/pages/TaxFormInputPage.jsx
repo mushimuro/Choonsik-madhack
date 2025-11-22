@@ -14,7 +14,7 @@ const TaxFormInputPage = () => {
   const { formId } = useParams()
   const navigate = useNavigate()
   const { currentUser } = useAuth()
-  const { currentForm, formData, updateFormData, saveFormDraft } = useTaxForm()
+  const { currentForm, formData, updateFormData, saveFormData } = useTaxForm()
   const [currentSection, setCurrentSection] = useState(0)
 
   // Get sections for the current form (defaulting to WI Form 1 for now)
@@ -62,7 +62,7 @@ const TaxFormInputPage = () => {
   const handleSaveAndContinue = async () => {
     try {
       updateFormData(values)
-      await saveFormDraft(currentUser.uid)
+      await saveFormData(currentUser.uid, { status: 'in_progress' })
       toast.success('Form saved successfully!')
       navigate(`/forms/${formId}/upload`)
     } catch (error) {
@@ -73,7 +73,7 @@ const TaxFormInputPage = () => {
   const handleSaveDraft = async () => {
     try {
       updateFormData(values)
-      await saveFormDraft(currentUser.uid)
+      await saveFormData(currentUser.uid, { status: 'draft' })
       toast.success('Draft saved successfully!')
     } catch (error) {
       toast.error('Error saving draft: ' + error.message)

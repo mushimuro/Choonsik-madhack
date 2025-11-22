@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react'
-import firestoreService from '../services/firestoreService'
-import storageService from '../services/storageService'
+import gcsService from '../services/gcsService'
 
 const TaxFormContext = createContext()
 
@@ -18,14 +17,15 @@ export function TaxFormProvider({ children }) {
   const [uploadedDocuments, setUploadedDocuments] = useState([])
   const [formTemplates, setFormTemplates] = useState([])
   const [loading, setLoading] = useState(false)
+  const [currentFormId, setCurrentFormId] = useState(null)
 
   /**
-   * Load form templates from database
+   * Load form templates from GCP bucket
    */
   const loadFormTemplates = useCallback(async () => {
     try {
       setLoading(true)
-      const templates = await firestoreService.getFormTemplates()
+      const templates = await gcsService.listFormTemplates()
       setFormTemplates(templates)
       return templates
     } catch (error) {
@@ -40,6 +40,7 @@ export function TaxFormProvider({ children }) {
    */
   const selectForm = useCallback((formTemplate) => {
     setCurrentForm(formTemplate)
+    setCurrentFormId(formTemplate.id)
     setFormData({})
     setUploadedDocuments([])
   }, [])
@@ -55,52 +56,58 @@ export function TaxFormProvider({ children }) {
   }, [])
 
   /**
-   * Save form draft to database
+   * Save form data to GCP Storage
    */
-  const saveFormDraft = useCallback(async (userId) => {
+  const saveFormData = useCallback(async (userId, metadata = {}) => {
     try {
       setLoading(true)
       
-      if (!currentForm) {
+      if (!currentForm || !currentFormId) {
         throw new Error('No form selected')
       }
 
-      const formId = await firestoreService.createTaxForm(userId, {
-        formTemplateId: currentForm.id,
-        formType: currentForm.type,
-        formName: currentForm.name,
-        formData,
-        uploadedDocuments,
-        status: 'draft',
-      })
+      const result = await gcsService.saveUserFormData(
+        userId,
+        currentFormId,
+        {
+          formTemplateId: currentForm.id,
+          formType: currentForm.type,
+          formName: currentForm.name,
+          formData,
+          uploadedDocuments,
+          savedAt: new Date().toISOString(),
+        },
+        metadata
+      )
 
-      return formId
+      return result
     } catch (error) {
       throw error
     } finally {
       setLoading(false)
     }
-  }, [currentForm, formData, uploadedDocuments])
+  }, [currentForm, currentFormId, formData, uploadedDocuments])
 
   /**
-   * Load existing form
+   * Load existing form data
    */
-  const loadForm = useCallback(async (formId) => {
+  const loadFormData = useCallback(async (userId, formId, fileName = null) => {
     try {
       setLoading(true)
-      const form = await firestoreService.getTaxForm(formId)
+      const result = await gcsService.getUserFormData(userId, formId, fileName)
       
-      if (form) {
+      if (result.formData) {
+        setCurrentFormId(formId)
         setCurrentForm({
-          id: form.formTemplateId,
-          type: form.formType,
-          name: form.formName,
+          id: result.formData.formTemplateId,
+          type: result.formData.formType,
+          name: result.formData.formName,
         })
-        setFormData(form.formData || {})
-        setUploadedDocuments(form.uploadedDocuments || [])
+        setFormData(result.formData.formData || {})
+        setUploadedDocuments(result.formData.uploadedDocuments || [])
       }
       
-      return form
+      return result
     } catch (error) {
       throw error
     } finally {
@@ -113,8 +120,19 @@ export function TaxFormProvider({ children }) {
    */
   const uploadDocument = useCallback(async (userId, file, documentType, onProgress) => {
     try {
-      const documentData = await storageService.uploadUserDocument(
+      if (!currentFormId) {
+        throw new Error('No form selected')
+      }
+
+      // Validate file
+      gcsService.validateFile(file, {
+        maxSize: 10 * 1024 * 1024,
+        allowedTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'],
+      })
+
+      const documentData = await gcsService.uploadUserDocument(
         userId,
+        currentFormId,
         file,
         documentType,
         onProgress
@@ -125,15 +143,21 @@ export function TaxFormProvider({ children }) {
     } catch (error) {
       throw error
     }
-  }, [])
+  }, [currentFormId])
 
   /**
    * Remove uploaded document
    */
-  const removeDocument = useCallback((documentPath) => {
-    setUploadedDocuments(prev =>
-      prev.filter(doc => doc.path !== documentPath)
-    )
+  const removeDocument = useCallback(async (documentPath) => {
+    try {
+      await gcsService.deleteFile(documentPath)
+      setUploadedDocuments(prev =>
+        prev.filter(doc => doc.path !== documentPath)
+      )
+    } catch (error) {
+      console.error('Error removing document:', error)
+      throw error
+    }
   }, [])
 
   /**
@@ -141,18 +165,56 @@ export function TaxFormProvider({ children }) {
    */
   const clearForm = useCallback(() => {
     setCurrentForm(null)
+    setCurrentFormId(null)
     setFormData({})
     setUploadedDocuments([])
   }, [])
 
   /**
-   * Get user's form history
+   * Get user's form list
    */
   const getUserForms = useCallback(async (userId) => {
     try {
       setLoading(true)
-      const forms = await firestoreService.getUserTaxForms(userId)
+      const forms = await gcsService.listUserForms(userId)
       return forms
+    } catch (error) {
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  /**
+   * Generate and upload PDF
+   */
+  const generateAndUploadPDF = useCallback(async (userId, pdfBlob, onProgress) => {
+    try {
+      if (!currentForm || !currentFormId) {
+        throw new Error('No form selected')
+      }
+
+      const result = await gcsService.uploadGeneratedPDF(
+        userId,
+        currentFormId,
+        pdfBlob,
+        currentForm.name,
+        onProgress
+      )
+
+      return result
+    } catch (error) {
+      throw error
+    }
+  }, [currentForm, currentFormId])
+
+  /**
+   * Delete a form
+   */
+  const deleteForm = useCallback(async (userId, formId) => {
+    try {
+      setLoading(true)
+      await gcsService.deleteUserForm(userId, formId)
     } catch (error) {
       throw error
     } finally {
@@ -162,6 +224,7 @@ export function TaxFormProvider({ children }) {
 
   const value = {
     currentForm,
+    currentFormId,
     formData,
     uploadedDocuments,
     formTemplates,
@@ -169,12 +232,14 @@ export function TaxFormProvider({ children }) {
     loadFormTemplates,
     selectForm,
     updateFormData,
-    saveFormDraft,
-    loadForm,
+    saveFormData,
+    loadFormData,
     uploadDocument,
     removeDocument,
     clearForm,
     getUserForms,
+    generateAndUploadPDF,
+    deleteForm,
   }
 
   return (
@@ -183,4 +248,3 @@ export function TaxFormProvider({ children }) {
     </TaxFormContext.Provider>
   )
 }
-
