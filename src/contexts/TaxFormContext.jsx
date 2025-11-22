@@ -25,9 +25,14 @@ export function TaxFormProvider({ children }) {
   const loadFormTemplates = useCallback(async () => {
     try {
       setLoading(true)
-      const templates = await gcsService.listFormTemplates()
-      setFormTemplates(templates)
-      return templates
+      const gcsFiles = await gcsService.listFormTemplates()
+      
+      // Dynamically import to avoid circular dependency
+      const { mapGCSFilesToForms } = await import('../utils/formTemplateMapper')
+      const mappedTemplates = mapGCSFilesToForms(gcsFiles)
+      
+      setFormTemplates(mappedTemplates)
+      return mappedTemplates
     } catch (error) {
       throw error
     } finally {

@@ -232,38 +232,41 @@ class GCSService {
    */
 
   /**
-   * Upload form template
+   * Upload form template (flat structure)
    */
-  async uploadFormTemplate(formId, file, metadata = {}) {
-    const path = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/${formId}/${file.name}`
-    return this.uploadFile(file, path, { formId, ...metadata })
+  async uploadFormTemplate(file, metadata = {}) {
+    const path = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/${file.name}`
+    return this.uploadFile(file, path, metadata)
   }
 
   /**
-   * Get form template
+   * Get form template by filename
    */
-  async getFormTemplate(formId, fileName) {
-    const path = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/${formId}/${fileName}`
+  async getFormTemplate(fileName) {
+    const path = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/${fileName}`
     const metadata = await this.getFileMetadata(path)
     const url = await this.getSignedUrl(path)
-    return { ...metadata, url }
+    return { ...metadata, url, path }
   }
 
   /**
-   * List form templates
+   * List all form templates (flat structure)
    */
   async listFormTemplates() {
-    const { prefixes } = await this.listFiles(GCS_CONFIG.FORM_TEMPLATES_PATH + '/')
+    const prefix = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/`
+    const { files } = await this.listFiles(prefix, '')
     
-    const templates = await Promise.all(
-      prefixes.map(async (prefix) => {
-        const formId = prefix.replace(`${GCS_CONFIG.FORM_TEMPLATES_PATH}/`, '').replace('/', '')
-        const { files } = await this.listFiles(prefix)
-        return { formId, files }
-      })
-    )
+    // Filter only PDF files
+    const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'))
     
-    return templates
+    return pdfFiles.map(file => ({
+      fileName: file.name.split('/').pop(),
+      path: file.path,
+      url: file.url,
+      size: file.size,
+      contentType: file.contentType,
+      metadata: file.metadata,
+    }))
   }
 
   /**

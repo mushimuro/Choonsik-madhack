@@ -9,25 +9,7 @@ export const FORM_TYPES = {
 }
 
 export const TAX_FORMS = {
-  // Federal Forms
-  FORM_1040: {
-    id: 'form_1040',
-    name: 'Form 1040',
-    fullName: 'U.S. Individual Income Tax Return',
-    type: FORM_TYPES.FEDERAL,
-    year: 2024,
-    description: 'Standard federal income tax return form',
-  },
-  SCHEDULE_C: {
-    id: 'schedule_c',
-    name: 'Schedule C',
-    fullName: 'Profit or Loss from Business',
-    type: FORM_TYPES.FEDERAL,
-    year: 2024,
-    description: 'Report income or loss from a business you operated',
-  },
-  
-  // Wisconsin Forms
+  // Wisconsin Forms (matching your GCS files)
   FORM_1: {
     id: 'wi_form_1',
     name: 'Wisconsin Form 1',
@@ -35,6 +17,7 @@ export const TAX_FORMS = {
     type: FORM_TYPES.WISCONSIN,
     year: 2024,
     description: 'Wisconsin state income tax return',
+    templateFile: '2024-wi-1.pdf', // Actual file in GCS
   },
   FORM_1NPR: {
     id: 'wi_form_1npr',
@@ -43,14 +26,36 @@ export const TAX_FORMS = {
     type: FORM_TYPES.WISCONSIN,
     year: 2024,
     description: 'For nonresidents and part-year residents',
+    templateFile: '2024-wi-1npr.pdf', // Actual file in GCS
   },
-  SCHEDULE_I: {
-    id: 'wi_schedule_i',
-    name: 'Wisconsin Schedule I',
-    fullName: 'Wisconsin Itemized Deductions',
-    type: FORM_TYPES.WISCONSIN,
+  
+  // Federal Forms (matching your GCS files)
+  FORM_1040: {
+    id: 'form_1040',
+    name: 'Form 1040',
+    fullName: 'U.S. Individual Income Tax Return',
+    type: FORM_TYPES.FEDERAL,
     year: 2024,
-    description: 'Itemized deductions for Wisconsin',
+    description: 'Standard federal income tax return form',
+    templateFile: '2024-fed-1040.pdf', // Actual file in GCS
+  },
+  FORM_1040NR: {
+    id: 'form_1040nr',
+    name: 'Form 1040-NR',
+    fullName: 'U.S. Nonresident Alien Income Tax Return',
+    type: FORM_TYPES.FEDERAL,
+    year: 2024,
+    description: 'For nonresident aliens',
+    templateFile: '2024-fed-1040nr.pdf', // Actual file in GCS
+  },
+  W2: {
+    id: 'w2',
+    name: 'W-2',
+    fullName: 'Wage and Tax Statement',
+    type: FORM_TYPES.FEDERAL,
+    year: 2024,
+    description: 'Wage and tax statement (reference only)',
+    templateFile: '2024-fed-w2.pdf', // Actual file in GCS
   },
 }
 
