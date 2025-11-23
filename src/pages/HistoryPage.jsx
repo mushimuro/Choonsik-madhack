@@ -227,6 +227,7 @@ const HistoryPage = () => {
                             size="small"
                             icon={<FiTrash2 />}
                             onClick={() => handleDeleteDraft(item.gcsUrl, item.formName, item.gcsPath)}
+                            className="btn-delete"
                           >
                             Delete
                           </Button>
@@ -245,6 +246,7 @@ const HistoryPage = () => {
                             size="small"
                             icon={<FiTrash2 />}
                             onClick={() => handleDeleteForm(item.id, item.formName)}
+                            className="btn-delete"
                           >
                             Delete
                           </Button>

@@ -10,6 +10,7 @@ const Button = ({
   icon,
   onClick,
   type = 'button',
+  className: customClassName = '',
   ...props
 }) => {
   const className = `
@@ -18,6 +19,7 @@ const Button = ({
     btn-${size}
     ${fullWidth ? 'btn-full-width' : ''}
     ${loading ? 'btn-loading' : ''}
+    ${customClassName}
   `.trim().replace(/\s+/g, ' ')
 
   return (

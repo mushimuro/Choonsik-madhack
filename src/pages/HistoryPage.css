@@ -94,6 +94,22 @@
   gap: var(--spacing-sm);
 }
 
+/* Delete button - red styling */
+.btn-delete {
+  border-color: #dc2626 !important;
+  color: #dc2626 !important;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626 !important;
+  color: white !important;
+  border-color: #dc2626 !important;
+}
+
+.btn-delete svg {
+  color: inherit !important;
+}
+
 .empty-state {
   text-align: center;
   padding: var(--spacing-2xl);
