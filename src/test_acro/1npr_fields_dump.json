@@ -1,0 +1,2182 @@
+{
+  "source_pdf": "1npr_2024_writable.pdf",
+  "num_fields": 272,
+  "fields": [
+    {
+      "pdf_name": "Purpose",
+      "alt_name": "Tab to navigate within form. Use mouse to check applicable boxes, press spacebar, or press Enter.",
+      "type": "/Tx",
+      "value": "Tab to navigate within form. Use mouse to check applicable boxes, press spacebar, or press Enter.",
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "amended",
+      "alt_name": "Check box if an amended return",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "beginning",
+      "alt_name": "Other tax year beginning date month and day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ending",
+      "alt_name": "Other tax year ending date month and day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "year",
+      "alt_name": "Last two digits of the year for the other tax year ending date",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "lname",
+      "alt_name": "Your legal last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "fname",
+      "alt_name": "Your legal first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "mi",
+      "alt_name": "Your middle initial",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "splname",
+      "alt_name": "If a joint return, spouse's legal last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "spfname",
+      "alt_name": "If a joint return, spouse's legal first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "smi",
+      "alt_name": "Spouse's middle initial",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sss3",
+      "alt_name": "First 3 digits of spouse's social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sss2",
+      "alt_name": "Middle 2 digits of spouse's social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sss4",
+      "alt_name": "Last 4 digits of spouse's social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "address",
+      "alt_name": "Home address (number and street). If you have a PO Box, see page 12",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "apt",
+      "alt_name": "Apartment number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "state",
+      "alt_name": "2-digit state abbreviation",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "zip",
+      "alt_name": "Zip code",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sccode",
+      "alt_name": "2-digit special conditions code",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "speccond",
+      "alt_name": "Special condition",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "status",
+      "alt_name": "Check boxes for filing status - 1) Single, 2) Married filing joint return (even if only one had income), 3) Married filing separate return. Fill in spouse's SSN above and full name here, 4) Head of household, NOT married, 5) Head of household, married",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "legallname",
+      "alt_name": "If married filing separate, spouse's legal last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "legalfname",
+      "alt_name": "If married filing separate, spouse's legal first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "legalmi",
+      "alt_name": "If married filing separate, spouse's middle initial",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "district",
+      "alt_name": "Check boxes for 1) City, 2) Village, 3), Town",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "reside",
+      "alt_name": "City, village, or town of tax district in which you lived at the end of the tax year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "county",
+      "alt_name": "County of the tax district in which you lived at the end of the tax year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "schdistno",
+      "alt_name": "4 digit school district number (see page 57) in which you lived at the end of the tax year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "resident1",
+      "alt_name": "You / Spouse check boxes for filing status - 1) Full-year resident of Wisconsin, 2) Nonresident of Wisconsin, 3) Part-year resident of Wisconsin",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "residentsp1",
+      "alt_name": "residentsp1",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "residenceST",
+      "alt_name": "If nonresident of Wisconsin, enter state of residence 2-letter state abbreviation",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "from month",
+      "alt_name": "month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "from day",
+      "alt_name": "day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "from year",
+      "alt_name": "day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "to month",
+      "alt_name": "month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "to day",
+      "alt_name": "day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "to year",
+      "alt_name": "day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "1a",
+      "alt_name": "Line 1, column A. Federal; Wages, salaries, tips, etc. (see page 17)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "1b",
+      "alt_name": "Line 1, column B. Wisconsin; Wages, salaries, tips, etc. (see page 17)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "2a",
+      "alt_name": "Line 2, column A. Federal; Taxable interest (see page 18)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "2b",
+      "alt_name": "Line 2, column B. Wisconsin; Taxable interest (see page 18)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "3a",
+      "alt_name": "Line 3, column A. Federal; Ordinary dividends (see page 18)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "3b",
+      "alt_name": "Line 3, column B. Wisconsin; Ordinary dividends (see page 18)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "5a",
+      "alt_name": "Line 5, column A. Federal; Alimony received (see page 19)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "5b",
+      "alt_name": "Line 5, column B. Wisconsin; Alimony received (see page 19)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "6a",
+      "alt_name": "Line 6, column A. Federal; Business income or (loss) (see page 19)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "6b",
+      "alt_name": "Line 6, column B. Wisconsin; Business income or (loss) (see page 19)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "7a",
+      "alt_name": "Line 7, column A. Federal; Capital gain or (loss) (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "7b",
+      "alt_name": "Line 7, column B. Wisconsin; Capital gain or (loss) (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "8a",
+      "alt_name": "Line 8, column A. Federal; Other gains or (losses) (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "8b",
+      "alt_name": "Line 8, column B. Wisconsin; Other gains or (losses) (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "9a",
+      "alt_name": "Line 9, column A. Federal; IRA distributions (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "9b",
+      "alt_name": "Line 9, column B. Wisconsin; IRA distributions (see page 20)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "10a",
+      "alt_name": "Line 10, column A. Federal; Pensions and annuities (see page 21)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "10b",
+      "alt_name": "Line 10, column B. Wisconsin; Pensions and annuities (see page 21)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "11a",
+      "alt_name": "Line 11, column A. Federal; Rental real estate, royalties, partnerships, S corporations, trusts, etc. (see page 21)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "11b",
+      "alt_name": "Line 11, column B. Wisconsin; Rental real estate, royalties, partnerships, S corporations, trusts, etc. (see page 21)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "12a",
+      "alt_name": "Line 12, column A. Federal; Farm income or (loss) (see page 22)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "12b",
+      "alt_name": "Line 12, column B. Wisconsin; Farm income or (loss) (see page 22)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "13a",
+      "alt_name": "Line 13, column A. Federal; Unemployment compensation (see page 22)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "13b",
+      "alt_name": "Line 13, column B. Wisconsin; Unemployment compensation (see page 22)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "15a",
+      "alt_name": "Line 15, column A. Federal; Other income. Enclose Schedule M if line 15b has an amount",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "15b",
+      "alt_name": "Line 15, column B. Wisconsin; Other income. Enclose Schedule M if line 15b has an amount",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "16a",
+      "alt_name": "Line 16, column A. Federal; Combine lines 1 through 15",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "16b",
+      "alt_name": "Line 16, column B. Wisconsin; Combine lines 1 through 15",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "lnamep2",
+      "alt_name": "Page 2, your legal last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "fnamep2",
+      "alt_name": "Page 2, your legal first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "19a",
+      "alt_name": "Line 19, column A. Federal; Health savings account deduction (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "19b",
+      "alt_name": "Line 19, column B. Wisconsin; Health savings account deduction (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "20a",
+      "alt_name": "Line 20, column A. Federal; Moving expenses for members of the Armed Forces  (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "20b",
+      "alt_name": "Line 20, column B. Wisconsin; Moving expenses for members of the Armed Forces (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "21a",
+      "alt_name": "Line 21, column A. Federal; Deductible part of self-employment tax (see page 24)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "21b",
+      "alt_name": "Line 21, column B. Wisconsin; Deductible part of self-employment tax (see page 24)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "22a",
+      "alt_name": "Line 22, column A. Federal; Self-employed SEP, SIMPLE, and qualified plans (see page 24)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "22b",
+      "alt_name": "Line 22, column B. Wisconsin; Self-employed SEP, SIMPLE, and qualified plans (see page 24)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "23a",
+      "alt_name": "Line 23, column A. Federal; Self-employed health insurance deduction (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "23b",
+      "alt_name": "Line 23, column B. Wisconsin; Self-employed health insurance deduction (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "24a",
+      "alt_name": "Line 24, column A. Federal; Penalty on early withdrawal of savings (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "24b",
+      "alt_name": "Line 24, column B. Wisconsin; Penalty on early withdrawal of savings (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "25a",
+      "alt_name": "Line 25, column A. Federal; Alimony paid (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "25b",
+      "alt_name": "Line 25, column B. Wisconsin; Alimony paid (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "26a",
+      "alt_name": "Line 26, column A. IRA deduction (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "26b",
+      "alt_name": "Line 26, column B. IRA deduction (see page 25)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "27a",
+      "alt_name": "Line 27, column A. Federal; Student loan interest deduction (see page 26)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "27b",
+      "alt_name": "Line 27, column B. Wisconsin; Student loan interest deduction (see page 26)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "lnamep3",
+      "alt_name": "Page 3, your legal last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "fnamep3",
+      "alt_name": "Page 3, your legal first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "thirdprty",
+      "alt_name": "Yes/No check boxes for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "designeename",
+      "alt_name": "Designee's name - If yes checked for the question, Do you want to allow another person to discuss this return with the department (see page 49)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "area1",
+      "alt_name": "Designee's area code for phone number - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 38)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "phone1",
+      "alt_name": "Designee's phone number but not area code - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pin1",
+      "alt_name": "First digit of designee's personal identification number (PIN) - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pin2",
+      "alt_name": "Second digit of designee's personal identification number (PIN) - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pin3",
+      "alt_name": "Third digit of designee's personal identification number (PIN) - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pin4",
+      "alt_name": "Fourth digit of designee's personal identification number (PIN) - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pin5",
+      "alt_name": "Fifth digit of designee's personal identification number (PIN) - If yes checked for the question, Do you want to allow another person to dicuss this return with the department (see page 47)?",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "todaysdate",
+      "alt_name": "Today's date",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-1",
+      "alt_name": "Schedule 1-Wisconsin Itemized Deduction Credit; line 1; Medical and dental expenses from federal Schedule A (Form 1040). See instructions for exceptions",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-2",
+      "alt_name": "Schedule 1-Wisconsin Itemized Deduction Credit; line 2; Interest paid from Schedule A (Form 1040). See instructions for exceptions",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-3",
+      "alt_name": "Schedule 1-Wisconsin Itemized Deduction Credit; line 3; Gifts to charity from federal Schedule A (Form 1040). See instructions for exceptions",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-4",
+      "alt_name": "Schedule 1-Wisconsin Itemized Deduction Credit; line 4; Casualty losses from federal Schedule A (Form 1040)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-5",
+      "alt_name": "Schedule 1-Wisconsin Itemized Deduction Credit; line 5; Add lines 1 through 4",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-7",
+      "alt_name": "Schedule 1- Wisconsin Itemized Deduction Credit; line 7; Subtract line 6 from line 5. If line 6 is more than line 5, fill in 0 (zero)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2a-1",
+      "alt_name": "Schedule 2- Married Couple Credit; line 1, column A; Your wages, salaries, tips, etc., included in column B of line 1 on Form 1NPR. Do not include deferred compensation (even though reported on a W-2) or taxable scholarships or fellowships not reported on a W-2",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2b-1",
+      "alt_name": "Schedule 2-Married Couple Credit; line 1, column B; Your spouse's wages, salaries, tips, etc., included in column B of line 1 on Form 1NPR. Do not include deferred compensation (even though reported on a W-2) or taxable scholarships or fellowships not reported on a W-2",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2a-2",
+      "alt_name": "Schedule 2-Married Couple Creidt; line 2, column A; Your net profit or (loss) from self-employment from federal Schedules C, C-EZ, and F (Form 1040), Schedule K-1 (Form 1065), and any other taxable self-employment or earned income included in column B on Form 1NPR",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2b-2",
+      "alt_name": "Schedule 2-Married Couple Credit; line 2, column B; Your spouse's net profit or (loss) from self-employment from federal Schedules C, C-EZ, and F (Form 1040), Schedule K-1 (Form 1065), and any other taxable self-employment or earned income included in column B on Form 1NPR",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2a-3",
+      "alt_name": "Schedule 2-Married Couple Credit; line 3, column A; Combine your lines 1 and 2. This is your total Wisconsin earned income.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2b-3",
+      "alt_name": "Schedule 2-Married Couple Credit; line 3, column B; Combine your spouse's lines 1 and 2. This is your total Wisconsin earned income.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2a-4",
+      "alt_name": "Schedule 2-Married Couple Credit; line 4, column A; Add amounts on Form 1NPR, lines 18, 22, 26, and 28, column B. Fill in the total of these adjustments that apply to your spouse's earned income",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2b-4",
+      "alt_name": "Schedule 2-Married Couple Credit; line 4, column B; Add your spouse's amounts on Form 1NPR, lines 18, 22, 26, and 28, column B. Fill in the total of these adjustments that apply to your spouse's earned income",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2a-5",
+      "alt_name": "Schedule 2-Married Couple Credit; line 5, column A; Subtract your line 4 from line 3. This is your qualified earned income.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2b-5",
+      "alt_name": "Schedule 2-Married Couple Credit;, line 5, column B; Subtract your spouse's line 4 from line 3. This is your spouse's qualified earned income.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2-6",
+      "alt_name": "Schedule 2-Married Couple Credit, line 6; Compare the amount in columns (A) and (B) of line 5. Fill in the smaller amount here. If more than $16,000, fill in $16,000.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch2-8",
+      "alt_name": "Schedule 2-Married Couple Credit, line 8; Multiply line 6 by line 7. Round the result and fill in here and on line 48 of Form 1NPR. Do not fill in more than $480.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "18a",
+      "alt_name": "Line 18, column A. Federal; Certain business expenses of reservists, performing artists, and fee-basis government officials (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "18b",
+      "alt_name": "Line 18, column B. Wisconsin; Certain business expenses of reservists, performing artists, and fee-basis government officials (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "17a",
+      "alt_name": "Line 17, column A. Federal; Educator expenses (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "17b",
+      "alt_name": "Line 17, column B. Wisconsin; Educator expenses (see page 23)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-6",
+      "alt_name": "Schedule 1- Wisconsin Itemized Deduction Credit; line 6; Wisconsin standard deduction from Form 1NPR, line 34c",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "SaveAs",
+      "alt_name": "email",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "Print",
+      "alt_name": "Print",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "Clear",
+      "alt_name": "Clear",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "city",
+      "alt_name": "City or post office",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "foregincntry",
+      "alt_name": "Foreign Country",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "forepro",
+      "alt_name": "Foreign province/state/county",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "forepocode",
+      "alt_name": "Foreign postal code",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "form804",
+      "alt_name": "Check box if Form 804 filed witih return",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "28b",
+      "alt_name": "Line 28b, column B. Wisconsin; Other adjustments. Enclose Schedule M if ine 28b has an amount",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "28a",
+      "alt_name": "Line 28a, column A. Federal; Other adjustments. Enclose Schedule M if line 28b has an amount",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "29b",
+      "alt_name": "Line 29, column B. Wisconsin; Total adjustments to income. Add lines 17 through 28",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "30",
+      "alt_name": "Line 30, column B. Wisconsin; Wisconsin income. Subtract line 29, column B from line 16, column B",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "29a",
+      "alt_name": "Line 29, column A. Federal; Total adjustments to income. Add lines 17 through 28",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "31",
+      "alt_name": "Line 31, column A. Federal; Federal income. Subtract line 29, column A from line 16, column A",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "34a",
+      "alt_name": "Line 34a; check box; If you (or your spouse) can be claimed as a dependent on anyone else's return, check here and see the \"Exception\" in the instructions for line 34c",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "34b",
+      "alt_name": "Line 34b; check box; Aliens (see page 27 to determine if you must check line 34b)",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "34c",
+      "alt_name": "Line 34c; Find the standard deduction for amount on line 31 using table",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "35",
+      "alt_name": "Line 35; Subtract line 34c from line 33. If line 34c is more than line 33, fill in 0 (zero)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36a",
+      "alt_name": "Line 36a; Exemptions (Caution: see page 28)  Fill in exemptions allowed",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36aa",
+      "alt_name": "Line 36a amount-number of exemptions times $700",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36byou",
+      "alt_name": "Line 36b; Check box-check if you are 65 or older",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36bspouse",
+      "alt_name": "Line 36b; Check box-check if your spouse is 65 or older",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36b",
+      "alt_name": "Line 36b; Fill in number of boxes checked for you and your spouse if 65 or older",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36bb",
+      "alt_name": "Line 36b amount-number of boxes checked for you and your spouse if 65 or older times $250",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "36c",
+      "alt_name": "Line 36c: Add lines 36a and 36b",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "37",
+      "alt_name": "Line 37; Subtract line 36c from line 35. If line 36c is more than line 35, fill in 0 (zero)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp1",
+      "alt_name": "1st digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp2",
+      "alt_name": "2nd digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp3",
+      "alt_name": "3rd digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp4",
+      "alt_name": "4th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp5",
+      "alt_name": "5th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp6",
+      "alt_name": "6th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp7",
+      "alt_name": "7th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp1a",
+      "alt_name": "1st digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp2a",
+      "alt_name": "2nd digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp3a",
+      "alt_name": "3rd digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp4a",
+      "alt_name": "4th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp5a",
+      "alt_name": "5th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp6a",
+      "alt_name": "6th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "wipp7a",
+      "alt_name": "7th digit of Wisconsin Identity Protection PIN",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "todaysdate2",
+      "alt_name": "Today's date",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "72",
+      "alt_name": "Line 71; Amount of line 70 to be APPLIED TO YOUR 2025 ESTIMATED TAX",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "71",
+      "alt_name": "Line 71; Amount of line 70 you want REFUNDED TO YOU",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "70",
+      "alt_name": "Line 70; If line 69 is more than line 57, subtract line 57 from line 69. This is the AMOUNT OVERPAID",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "69",
+      "alt_name": "Line 69; Subtract line 68 from line 67",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "68",
+      "alt_name": "Line 68; AMENDED RETURN ONLY - amount previously paid (see page 44)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "67",
+      "alt_name": "Line 67; Add lines 58 through 66",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "66",
+      "alt_name": "Line 66; AMENDED RETURN ONLY - amount previously paid (see page 44)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "65",
+      "alt_name": "Line 65; Refundable credits from Schedule CR, line 40",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "64",
+      "alt_name": "Line 64; Eligible veterans and surviving spouses property tax credit",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "63",
+      "alt_name": "Line 63; Homestead credit. (Full-year Wisconsin residents only)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "62",
+      "alt_name": "Line 62; Repayment credit",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "61b",
+      "alt_name": "Line 61b; Farmland preservation credit, Schedule FC-A, line 13",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "60%",
+      "alt_name": "Line 60; percentage rate that applies to you",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "60",
+      "alt_name": "Line 60; Amount of federal earned income times percentage rate that applies to you",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "61a",
+      "alt_name": "Line 61a; Farmland preservation credit; Schedule FC, line 17",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "59",
+      "alt_name": "Line 59; 2024 Wisconsin estimated tax paid and amount applied from 2023 return",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "58",
+      "alt_name": "Line 58; Wisconsin income tax withheld. Enclude readable withholding statements",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "57",
+      "alt_name": "Line 57; Add lines 52 through 56",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "56",
+      "alt_name": "Line 56; Other penalties (see page 38)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "55 pen",
+      "alt_name": "Line 55; Penalties on IRAs, other retirement plans, MSAs, etc.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "60taxes",
+      "alt_name": "Line 60 federal credit (see instructions)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "60child",
+      "alt_name": "Line 60; Earned income credit. (Full-year Wisconsin residents only)  Number of qualifying children.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "55",
+      "alt_name": "Line 55; 33% of amount of penalties on IRAs, other retirement plans, MSAs, etc. (see page 37)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "53ck",
+      "alt_name": "Line 53 check box; check if you certify that no sales or use tax is due",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "53",
+      "alt_name": "Line 53; Sales and use tax due on Internet, mail order, or other out-of-state purchases (see page 36). ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "52",
+      "alt_name": "Line 52; Subtract line 51 from line 46. If line 51 is more than line 46, fill in 0 (zero). This is your net tax",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "51",
+      "alt_name": "Line 51; Add lines 47 through 50",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "50a",
+      "alt_name": "Line 50a; 2-digit state abbreviation for other state, net income tax paid to another state. Enclose Schedule OS",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "50",
+      "alt_name": "Line 50; Net income tax paid to another state. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "49",
+      "alt_name": "Line 49; Nonfrefundable credits from Schedule CR, line 34. Include Schedule CR",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "48",
+      "alt_name": "Line 48; Married couple credit. Complete Schedule 2 (page 4, Form 1NPR)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "47",
+      "alt_name": "Line 47; Working families tax credit. (Full-year Wisconsin residents only)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "46",
+      "alt_name": "Line 46; Fill in amount from line 45",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "33",
+      "alt_name": "Line 33; Fill in the larger of Wisconsin income from line 30, column B or federal income from line 31, column A. But, if Wisconsin income from line 30 is zero or less, fill in 0 (zero)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "4a",
+      "alt_name": "Line 4, column A. Federal; Taxable refunds, credits, or offsets of state and local income taxes (from line 1 of federal Schedule 1 (Form 1040)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "14a",
+      "alt_name": "Line 14, column B. Federal; Social security benefits (see page 22)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1a",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1a; Donations for endangered resources (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1b",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1b; Donations for cancer research (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1c",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1c; Donations for veterans trust fund (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1d",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1d; Donations for multiple sclerosis (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1e",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1e; Donations for military family relief fund (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1f",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1f; Donations for Second Harvest/Feeding America (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1g",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1g; Donations for American Red Cross Badger Chapter (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-1h",
+      "alt_name": "Schedule 3-Financial Donations and Anatomical Gift Registration, Line 1h; Donations for Special Olympics Wisconsin (decreases refund or increases amount owed)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "lnamepg5",
+      "alt_name": "Page 5, your last name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "fnamepg5",
+      "alt_name": "Page 5, your first name",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch3-2",
+      "alt_name": "Part 1, Line 2; Total Donations (add lines 1a through 1h). Fill in here and on line 24 on page 2 of Form 1",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pg5-a Filer checkbox",
+      "alt_name": "1a check box. Filer: check Yes box if you wish to be included in the registry of potential donors.",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "Sex",
+      "alt_name": "Check box for Male or Female",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "m1",
+      "alt_name": "Filer's date of birth; 1st digit of month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "m2",
+      "alt_name": "Filer's date of birth; 2nd digit of month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "d1",
+      "alt_name": "Filer's date of birth; 1st digit of day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "d2",
+      "alt_name": "Filer's date of birth 2nd; digit of day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y1",
+      "alt_name": "Filer's date of birth; 1st digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y2",
+      "alt_name": "Filer's date of birth; 2nd digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y3",
+      "alt_name": "Filer's date of birth; 3rd digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y4",
+      "alt_name": "Filer's date of birth; 4th digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "pg5-b Spouse checkbox",
+      "alt_name": "1a check box. Spouse (only if joint return): check Yes box if you wish to be included in the registry of potential donors.",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "Sex1",
+      "alt_name": "Check box for Male or Female",
+      "type": "/Btn",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "m1a",
+      "alt_name": "Filer's date of birth; 1st digit of month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "m2b",
+      "alt_name": "Filer's date of birth; 2nd digit of month",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "d1a",
+      "alt_name": "Filer's date of birth; 1st digit of day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "d2b",
+      "alt_name": "Filer's date of birth 2nd; digit of day",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y1a",
+      "alt_name": "Filer's date of birth; 1st digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y2b",
+      "alt_name": "Filer's date of birth; 2nd digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y3c",
+      "alt_name": "Filer's date of birth; 3rd digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "y4d",
+      "alt_name": "Filer's date of birth; 4th digit of year",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "73",
+      "alt_name": "Line 73; If line 69 is less than line 57, subtract line 69 from line 57. This is the AMOUNT UNDERPAID",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "74code",
+      "alt_name": "Line 74; Underpayment interest. Fill in exception code - see Sch. U",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "74",
+      "alt_name": "Line 74; Underpayment interest.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "54",
+      "alt_name": "Line 54; Donations. Complete Part I of Schedule 3 on page 5",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "75",
+      "alt_name": "Line 75; Add lines 73 and 74. This is the AMOUNT YOU OWE",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "76",
+      "alt_name": "Line 76; Interest (see page 47)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-9",
+      "alt_name": "Schedule 1- Wisconsin Itemized Deduction Credit; line 9; Multiply line 7 by line 8",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "sch1-11",
+      "alt_name": "Schedule 1- Wisconsin Itemized Deduction Credit; line 11; Multiply line 9 by line 10. Fill in here and on line 40 of Form 1NPR",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line32a",
+      "alt_name": "Line 32a; 1st digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line32b",
+      "alt_name": "Line 32b; 2nd digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line32c",
+      "alt_name": "Line 32c; 3rd digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line32d",
+      "alt_name": "Line 32d; 4th digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line32e",
+      "alt_name": "Line 32e; 5th digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line10a",
+      "alt_name": "Line 32d; 4th digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line10b",
+      "alt_name": "Line 32e; 5th digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line10c",
+      "alt_name": "Line 32a; 1st digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line10d",
+      "alt_name": "Line 32b; 2nd digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000.",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "line10e",
+      "alt_name": "Line 32c; 3rd digit of percentage amount; Divide line 30 by line 31. Carry the decimal to four places. If amount on line 30 is more than amount on line 31, fill in 1.0000. ",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "45",
+      "alt_name": "Line 45; Subtract line 44 from line 39. If line 44 is more than line 39, fill in 0 (zero)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "44",
+      "alt_name": "Line 44; Add credits on lines 40, 41, 42, and 43c",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43btax",
+      "alt_name": "Line 43b; Property taxes paid on home in 2024",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43ahni",
+      "alt_name": "Line 43a; Rent paid in 2024-heat not included",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43ahi",
+      "alt_name": "Line 43a; Rent paid in 2024-heat included",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43a",
+      "alt_name": "Line 43a; Find credit from table on page 32",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "42",
+      "alt_name": "Line 42; Blind worker transportation qualifing expenses amount",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43b",
+      "alt_name": "Line 43b; Find credit from table on page 33",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "43c",
+      "alt_name": "Line 43c; Prorated credit (see instructions)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "38",
+      "alt_name": "Line 38; Tax (see table on page 51)",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "39",
+      "alt_name": "Line 39; Prorated tax. Multiply line 38 by ratio on line 32",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "40",
+      "alt_name": "Line 40; Itemized deduction credit. Complete Schedule 1 on page 4",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "41",
+      "alt_name": "Line 41; Additional child and dependant care tax credit. Include Schedule WI-2441",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "42exp",
+      "alt_name": "Line 42; Blind worker transportation services credit. Qualifying expenses X 50%",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss3",
+      "alt_name": "First 3 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss2",
+      "alt_name": "Middle 2 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss4",
+      "alt_name": "Last 4 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss3pg2",
+      "alt_name": "First 3 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss2pg2",
+      "alt_name": "Middle 2 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss4pg2",
+      "alt_name": "Last 4 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss3pg3",
+      "alt_name": "First 3 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss2pg3",
+      "alt_name": "Middle 2 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss4pg3",
+      "alt_name": "Last 4 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss3pg4",
+      "alt_name": "First 3 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss2pg4",
+      "alt_name": "Middle 2 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    },
+    {
+      "pdf_name": "ss4pg4",
+      "alt_name": "Last 4 digits of your social security number",
+      "type": "/Tx",
+      "value": null,
+      "page_index": null,
+      "rect": null
+    }
+  ]
+}
