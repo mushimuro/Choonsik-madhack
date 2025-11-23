@@ -163,8 +163,8 @@
       "rect": null
     },
     {
-      "pdf_name": "filingStatus",
-      "alt_name": "single",
+      "pdf_name": "status",
+      "alt_name": "Check boxes for filing status - 1) Single, 2) Married filing joint return (even if only one had income), 3) Married filing separate return. Fill in spouse's SSN above and full name here, 4) Head of household, NOT married, 5) Head of household, married",
       "type": "/Btn",
       "value": null,
       "page_index": null,
