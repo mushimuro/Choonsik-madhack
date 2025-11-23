@@ -1,0 +1,31 @@
+{
+  "formTemplateId": "form_1040nr",
+  "formType": "federal",
+  "formName": "U.S. Nonresident Alien Income Tax Return",
+  "formData": {
+    "firstName": "칼리",
+    "lastName": "아",
+    "dateOfBirth": "2025-11-05",
+    "address": "123 Main st",
+    "city": "Madison",
+    "state": "WI",
+    "zipCode": "12345",
+    "phoneNumber": "123-456-7890",
+    "email": "user1@email.com",
+    "apt": "34143",
+    "ssn": "132-24-3546",
+    "middleInitial": "D",
+    "filingStatus": "single",
+    "wages": "3",
+    "taxableInterest": "3",
+    "capitalGains": "3",
+    "ordinaryDividends": "3",
+    "businessIncome": "3",
+    "otherIncome": "3",
+    "unemploymentCompensation": "3"
+  },
+  "uploadedDocuments": [],
+  "status": "draft",
+  "savedAt": "2025-11-23T13:56:21.879Z",
+  "userId": "LaoPQSXAW0aD86XGBv6THMV3Ao93"
+}
