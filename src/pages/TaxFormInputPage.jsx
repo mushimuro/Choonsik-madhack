@@ -30,7 +30,10 @@ const TaxFormInputPage = () => {
     isSubmitting,
     handleChange, 
     handleBlur,
-    setFieldValues 
+    setFieldValues,
+    validate,
+    setFieldError,
+    touchAllFields
   } = useForm(formData, sections[currentSection]?.fields || [])
 
   useEffect(() => {
@@ -80,6 +83,29 @@ const TaxFormInputPage = () => {
   }, [sections, values])
 
   const handleNext = async () => {
+    // Validate current section before proceeding
+    const validation = validate()
+    
+    if (!validation.isValid) {
+      // Mark all fields as touched to show error messages
+      touchAllFields()
+      
+      // Show error message
+      toast.error('Please fill out all required fields before continuing.')
+      
+      // Scroll to the first error (optional)
+      const firstErrorField = Object.keys(validation.errors)[0]
+      if (firstErrorField) {
+        const element = document.querySelector(`[name="${firstErrorField}"]`)
+        if (element) {
+          element.focus()
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }
+      
+      return // Don't proceed to next section
+    }
+    
     // Save current section data
     updateFormData(values)
     

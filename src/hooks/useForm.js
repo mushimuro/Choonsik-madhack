@@ -73,6 +73,17 @@ export const useForm = (initialValues = {}, fieldDefinitions = []) => {
   }, [])
 
   /**
+   * Mark all fields as touched
+   */
+  const touchAllFields = useCallback(() => {
+    const allTouched = fieldDefinitions.reduce((acc, field) => {
+      acc[field.name] = true
+      return acc
+    }, {})
+    setTouched(allTouched)
+  }, [fieldDefinitions])
+
+  /**
    * Validate form
    */
   const validate = useCallback(() => {
@@ -139,6 +150,7 @@ export const useForm = (initialValues = {}, fieldDefinitions = []) => {
     setFieldError,
     validate,
     resetForm,
+    touchAllFields,
   }
 }
 
