@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import Input from '../components/Common/Input'
 import Button from '../components/Common/Button'
 import Card from '../components/Common/Card'
+import Header from '../components/Layout/Header'
 import './AuthPages.css'
 
 const RegisterPage = () => {
@@ -75,86 +76,89 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="auth-page">
-      <div className="container auth-container">
-        <Card className="auth-card">
-          <div className="auth-header">
-            <h1>Create Account</h1>
-            <p>Sign up to start filing your tax forms</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="auth-form">
-            <Input
-              label="Full Name"
-              type="text"
-              name="displayName"
-              value={formData.displayName}
-              onChange={handleChange}
-              error={errors.displayName}
-              touched={true}
-              placeholder="Enter your full name"
-              required
-            />
-
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={errors.email}
-              touched={true}
-              placeholder="Enter your email"
-              required
-            />
-
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={errors.password}
-              touched={true}
-              placeholder="Enter your password (min 6 characters)"
-              required
-            />
-
-            <Input
-              label="Confirm Password"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              error={errors.confirmPassword}
-              touched={true}
-              placeholder="Confirm your password"
-              required
-            />
-
-            <div className="auth-actions">
-              <Button
-                type="submit"
-                variant="primary"
-                fullWidth
-                loading={loading}
-              >
-                Create Account
-              </Button>
+    <>
+    <Header />
+      <div className="auth-page">
+        <div className="container auth-container">
+          <Card className="auth-card">
+            <div className="auth-header">
+              <h1>Create Account</h1>
+              <p>Sign up to start filing your tax forms</p>
             </div>
-          </form>
 
-          <div className="auth-footer">
-            <p>
-              Already have an account?{' '}
-              <Link to="/login" className="auth-link">
-                Sign In
-              </Link>
-            </p>
-          </div>
-        </Card>
+            <form onSubmit={handleSubmit} className="auth-form">
+              <Input
+                label="Full Name"
+                type="text"
+                name="displayName"
+                value={formData.displayName}
+                onChange={handleChange}
+                error={errors.displayName}
+                touched={true}
+                placeholder="Enter your full name"
+                required
+              />
+
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={errors.email}
+                touched={true}
+                placeholder="Enter your email"
+                required
+              />
+
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                error={errors.password}
+                touched={true}
+                placeholder="Enter your password (min 6 characters)"
+                required
+              />
+
+              <Input
+                label="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                error={errors.confirmPassword}
+                touched={true}
+                placeholder="Confirm your password"
+                required
+              />
+
+              <div className="auth-actions">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  fullWidth
+                  loading={loading}
+                >
+                  Create Account
+                </Button>
+              </div>
+            </form>
+
+            <div className="auth-footer">
+              <p>
+                Already have an account?{' '}
+                <Link to="/login" className="auth-link">
+                  Sign In
+                </Link>
+              </p>
+            </div>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
