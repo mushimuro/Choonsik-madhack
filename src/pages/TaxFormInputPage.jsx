@@ -167,7 +167,7 @@ const TaxFormInputPage = () => {
             </div>
 
             <div className="form-actions">
-              <div className="form-actions-left">
+              <div className="form-actions-navigation">
                 {currentSection > 0 && (
                   <Button
                     type="button"
@@ -177,8 +177,15 @@ const TaxFormInputPage = () => {
                     Previous
                   </Button>
                 )}
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={handleNext}
+                >
+                  {currentSection < sections.length - 1 ? 'Next' : 'Continue'}
+                </Button>
               </div>
-              <div className="form-actions-right">
+              <div className="form-actions-save">
                 <Button
                   type="button"
                   variant="secondary"
@@ -186,13 +193,6 @@ const TaxFormInputPage = () => {
                   loading={isSubmitting}
                 >
                   Save Draft
-                </Button>
-                <Button
-                  type="button"
-                  variant="primary"
-                  onClick={handleNext}
-                >
-                  {currentSection < sections.length - 1 ? 'Next' : 'Continue'}
                 </Button>
               </div>
             </div>

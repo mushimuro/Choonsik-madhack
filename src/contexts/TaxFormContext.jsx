@@ -255,7 +255,7 @@ export function TaxFormProvider({ children }) {
   }, [])
 
   /**
-   * Generate and download PDF (no upload - downloads only)
+   * Generate and upload PDF to GCS via Cloud Function
    */
   const generateAndUploadPDF = useCallback(async (userId, pdfBlob, filename) => {
     try {
@@ -263,20 +263,53 @@ export function TaxFormProvider({ children }) {
         throw new Error('No form selected')
       }
 
-      console.log('📥 PDF ready for download:', {
-        filename,
-        size: `${(pdfBlob.size / 1024).toFixed(2)} KB`,
+      console.log('📤 Uploading PDF to GCS via Cloud Function...')
+
+      // Convert blob to base64
+      const reader = new FileReader()
+      const base64Promise = new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1] // Remove data:application/pdf;base64, prefix
+          resolve(base64)
+        }
+        reader.onerror = reject
+        reader.readAsDataURL(pdfBlob)
       })
 
-      // Note: GCS upload from browser requires Cloud Function or backend
-      // For now, we only support download
-      return {
-        success: true,
-        message: 'PDF generated successfully',
-        filename,
-        size: pdfBlob.size,
+      const pdfBase64 = await base64Promise
+
+      // Get Firebase Auth token
+      const { auth } = await import('../config/firebase')
+      const token = await auth.currentUser.getIdToken()
+
+      // Call Cloud Function
+      const cloudFunctionUrl = `https://us-central1-choonsik-madhack.cloudfunctions.net/uploadPDF`
+      
+      const response = await fetch(cloudFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+          formId: currentFormId,
+          pdfBase64,
+          filename,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Upload failed')
       }
+
+      const result = await response.json()
+      console.log('✅ PDF uploaded to GCS:', result.filePath)
+
+      return result
     } catch (error) {
+      console.error('❌ Error uploading PDF:', error)
       throw error
     }
   }, [currentForm, currentFormId])

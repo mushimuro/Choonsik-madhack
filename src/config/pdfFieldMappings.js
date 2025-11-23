@@ -1,4 +1,4 @@
-/**
+  /**
  * PDF Field Mappings
  * Maps application form fields to actual PDF form field names
  * 
@@ -32,10 +32,10 @@ export const TRANSFORMERS = {
     return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 5)}-${cleaned.slice(5, 9)}`
   },
   
-  // Format currency
+  // Format currency - dollars only (no cents)
   currency: (value) => {
-    if (value === null || value === undefined || value === '') return '0.00'
-    return Number(value).toFixed(2)
+    if (value === null || value === undefined || value === '') return '0'
+    return Math.floor(Number(value)).toString()
   },
   
   // Boolean to X or checkbox mark
@@ -52,7 +52,7 @@ export const TRANSFORMERS = {
 
 /**
  * Wisconsin Form 1 Field Mappings
- * NOTE: These are EXAMPLE field names. You MUST replace them with actual field names from your PDF!
+ * ACTUAL field names from 2024-wi-1.pdf
  */
 export const WI_FORM_1_MAPPINGS = {
   formId: 'wi_form_1',
@@ -60,54 +60,84 @@ export const WI_FORM_1_MAPPINGS = {
   templateFile: '2024-wi-1.pdf',
   
   fields: {
-    // Personal Information
-    firstName: { pdfField: 'firstName', transformer: null },
-    middleInitial: { pdfField: 'middleInitial', transformer: null },
-    lastName: { pdfField: 'lastName', transformer: null },
-    ssn: { pdfField: 'ssn', transformer: TRANSFORMERS.ssnNoDashes },
-    dateOfBirth: { pdfField: 'dateOfBirth', transformer: TRANSFORMERS.dateMMDDYYYY },
+    // Personal Information (Filer)
+    firstName: { pdfField: 'fname', transformer: null },
+    middleInitial: { pdfField: 'mi', transformer: null },
+    lastName: { pdfField: 'lname', transformer: null },
+    
+    // SSN is split into 3 fields: ss2 (first 3), ss3 (middle 2), ss4 (last 4)
+    // We'll use a custom transformer to split the SSN
+    ssn: { 
+      pdfField: null, // Special handling needed
+      transformer: (value) => {
+        if (!value) return null
+        const cleaned = value.replace(/\D/g, '')
+        return {
+          ss2: cleaned.slice(0, 3),   // First 3 digits
+          ss3: cleaned.slice(3, 5),   // Middle 2 digits
+          ss4: cleaned.slice(5, 9),   // Last 4 digits
+        }
+      }
+    },
+    
     address: { pdfField: 'address', transformer: null },
     city: { pdfField: 'city', transformer: null },
     state: { pdfField: 'state', transformer: null },
-    zipCode: { pdfField: 'zipCode', transformer: null },
-    phoneNumber: { pdfField: 'phoneNumber', transformer: TRANSFORMERS.phone },
-    email: { pdfField: 'email', transformer: null },
+    zipCode: { pdfField: 'zip', transformer: null },
     
-    // Spouse Information
-    spouseFirstName: { pdfField: 'spouseFirstName', transformer: null },
-    spouseMiddleInitial: { pdfField: 'spouseMiddleInitial', transformer: null },
-    spouseLastName: { pdfField: 'spouseLastName', transformer: null },
-    spouseSSN: { pdfField: 'spouseSSN', transformer: TRANSFORMERS.ssnNoDashes },
-    spouseDateOfBirth: { pdfField: 'spouseDateOfBirth', transformer: TRANSFORMERS.dateMMDDYYYY },
-    
-    // Filing Status (radio buttons or checkboxes)
-    filingStatus: {
-      pdfField: 'filingStatus',
-      transformer: null,
-      // For radio buttons, you might need specific values
-      valueMap: {
-        'single': '1',
-        'married_filing_jointly': '2',
-        'married_filing_separately': '3',
-        'head_of_household': '4',
-      },
+    // Phone is split: area code and number
+    phoneNumber: { 
+      pdfField: null,
+      transformer: (value) => {
+        if (!value) return null
+        const cleaned = value.replace(/\D/g, '')
+        return {
+          area1: cleaned.slice(0, 3),    // Area code
+          phone1: cleaned.slice(3, 10),  // Rest of number
+        }
+      }
     },
     
-    // Income
-    wages: { pdfField: 'wages', transformer: TRANSFORMERS.currency },
-    taxableInterest: { pdfField: 'taxableInterest', transformer: TRANSFORMERS.currency },
-    ordinaryDividends: { pdfField: 'ordinaryDividends', transformer: TRANSFORMERS.currency },
-    capitalGains: { pdfField: 'capitalGains', transformer: TRANSFORMERS.currency },
-    otherIncome: { pdfField: 'otherIncome', transformer: TRANSFORMERS.currency },
-    businessIncome: { pdfField: 'businessIncome', transformer: TRANSFORMERS.currency },
-    unemploymentCompensation: { pdfField: 'unemploymentCompensation', transformer: TRANSFORMERS.currency },
+    // Spouse Information
+    spouseFirstName: { pdfField: 'sfname', transformer: null },
+    spouseMiddleInitial: { pdfField: 'smi', transformer: null },
+    spouseLastName: { pdfField: 'splname', transformer: null },
+    
+    // Spouse SSN split into 3 fields
+    spouseSSN: { 
+      pdfField: null,
+      transformer: (value) => {
+        if (!value) return null
+        const cleaned = value.replace(/\D/g, '')
+        return {
+          sss2: cleaned.slice(0, 3),
+          sss3: cleaned.slice(3, 5),
+          sss4: cleaned.slice(5, 9),
+        }
+      }
+    },
+    
+    // Filing Status - appears to use 'status' checkbox
+    filingStatus: {
+      pdfField: 'status',
+      transformer: TRANSFORMERS.checkmark,
+    },
+    
+    // Income - Line numbers from the form
+    wages: { pdfField: '3wages', transformer: TRANSFORMERS.currency },
+    taxableInterest: { pdfField: '4', transformer: TRANSFORMERS.currency },
+    ordinaryDividends: { pdfField: '5', transformer: TRANSFORMERS.currency },
+    capitalGains: { pdfField: '6', transformer: TRANSFORMERS.currency },
+    otherIncome: { pdfField: '7', transformer: TRANSFORMERS.currency },
+    businessIncome: { pdfField: '8', transformer: TRANSFORMERS.currency },
+    unemploymentCompensation: { pdfField: '9', transformer: TRANSFORMERS.currency },
     
     // Deductions
-    medicalExpenses: { pdfField: 'medicalExpenses', transformer: TRANSFORMERS.currency },
-    stateTaxes: { pdfField: 'stateTaxes', transformer: TRANSFORMERS.currency },
-    mortgageInterest: { pdfField: 'mortgageInterest', transformer: TRANSFORMERS.currency },
-    charitableDonations: { pdfField: 'charitableDonations', transformer: TRANSFORMERS.currency },
-    studentLoanInterest: { pdfField: 'studentLoanInterest', transformer: TRANSFORMERS.currency },
+    medicalExpenses: { pdfField: '15a', transformer: TRANSFORMERS.currency },
+    stateTaxes: { pdfField: '16a', transformer: TRANSFORMERS.currency },
+    mortgageInterest: { pdfField: '18', transformer: TRANSFORMERS.currency },
+    charitableDonations: { pdfField: '19', transformer: TRANSFORMERS.currency },
+    studentLoanInterest: { pdfField: '20', transformer: TRANSFORMERS.currency },
   },
 }
 
@@ -204,7 +234,7 @@ export function mapFormDataToPDF(formData, formId) {
     let value = formData[appFieldName]
     
     // Skip if no value
-    if (value === undefined || value === null) {
+    if (value === undefined || value === null || value === '') {
       return
     }
     
@@ -216,10 +246,18 @@ export function mapFormDataToPDF(formData, formId) {
     // Apply transformer if exists
     if (fieldConfig.transformer) {
       value = fieldConfig.transformer(value)
+      
+      // Handle transformers that return multiple fields (like SSN split)
+      if (value && typeof value === 'object') {
+        Object.assign(pdfData, value)
+        return
+      }
     }
     
-    // Use PDF field name
-    pdfData[fieldConfig.pdfField] = value
+    // Use PDF field name (skip if null - for special handling)
+    if (fieldConfig.pdfField) {
+      pdfData[fieldConfig.pdfField] = value
+    }
   })
   
   return pdfData

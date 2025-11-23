@@ -119,6 +119,9 @@ class PDFService {
       const form = pdfDoc.getForm()
 
       // Iterate through form data and fill fields
+      let filledCount = 0
+      let errorCount = 0
+      
       Object.keys(formData).forEach(fieldName => {
         try {
           const field = form.getField(fieldName)
@@ -127,28 +130,45 @@ class PDFService {
 
           switch (fieldType) {
             case 'PDFTextField':
+            case 'PDFTextField2':  // Some PDFs use PDFTextField2
               field.setText(String(value))
+              filledCount++
+              console.log(`✅ Filled ${fieldName} = "${value}"`)
               break
             case 'PDFCheckBox':
+            case 'PDFCheckBox2':   // Some PDFs use PDFCheckBox2
               if (value) {
                 field.check()
               } else {
                 field.uncheck()
               }
+              filledCount++
+              console.log(`✅ Filled ${fieldName} = ${value}`)
               break
             case 'PDFRadioGroup':
               field.select(value)
+              filledCount++
+              console.log(`✅ Filled ${fieldName} = "${value}"`)
               break
             case 'PDFDropdown':
               field.select(value)
+              filledCount++
+              console.log(`✅ Filled ${fieldName} = "${value}"`)
+              break
+            case 'PDFButton':
+            case 'PDFButton2':
+              // Skip buttons
               break
             default:
-              console.warn(`Unknown field type: ${fieldType}`)
+              console.warn(`⚠️ Unknown field type: ${fieldType}`)
           }
         } catch (fieldError) {
-          console.warn(`Error filling field ${fieldName}:`, fieldError.message)
+          errorCount++
+          console.warn(`❌ Error filling field ${fieldName}:`, fieldError.message)
         }
       })
+      
+      console.log(`📊 Summary: ${filledCount} fields filled, ${errorCount} errors`)
 
       // Flatten form to make it non-editable (optional)
       // form.flatten()
