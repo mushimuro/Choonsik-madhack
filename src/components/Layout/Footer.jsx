@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container footer-content">
-        <p>&copy; {currentYear} Wisconsin Tax Form Filler. All rights reserved.</p>
+        <p>&copy; {currentYear} Choonsik Tax Return. All rights reserved.</p>
         <div className="footer-links">
           <a href="#privacy">Privacy Policy</a>
           <a href="#terms">Terms of Service</a>
