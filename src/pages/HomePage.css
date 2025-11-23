@@ -138,6 +138,108 @@
   font-size: 0.9375rem;
 }
 
+/* Document Requirements Section */
+.document-requirements {
+  padding: var(--spacing-2xl) 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.section-header-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.section-header-with-icon .section-title {
+  margin-bottom: 0;
+}
+
+.section-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto var(--spacing-2xl);
+  line-height: 1.6;
+}
+
+.requirements-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.requirement-preview-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.requirement-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.requirement-preview-header {
+  border-left: 4px solid;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.requirement-preview-header h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+}
+
+.form-type {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.requirement-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+}
+
+.icon-required {
+  color: #059669;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.icon-optional {
+  color: #f59e0b;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.view-full-requirements {
+  text-align: center;
+  padding-top: var(--spacing-lg);
+}
+
 /* Supported Forms Section */
 .supported-forms {
   padding: var(--spacing-2xl) 0;
@@ -218,8 +320,13 @@
   }
 
   .features-grid,
-  .steps {
+  .steps,
+  .requirements-preview-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
   }
 }
 

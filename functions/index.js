@@ -192,9 +192,20 @@ exports.deleteFile = functions.https.onRequest((req, res) => {
 
       // Delete the file from GCS
       const file = bucket.file(filePath);
+
+      // Check if file exists first
+      const [exists] = await file.exists();
+      if (!exists) {
+        console.log(`File not found, considering it already deleted: ${filePath}`);
+        return res.status(200).json({
+          success: true,
+          message: 'File not found (may have been already deleted)',
+        });
+      }
+      
       await file.delete();
 
-      console.log(`File deleted: ${filePath}`);
+      console.log(`File deleted successfully: ${filePath}`);
 
       return res.status(200).json({
         success: true,
@@ -203,9 +214,15 @@ exports.deleteFile = functions.https.onRequest((req, res) => {
 
     } catch (error) {
       console.error('Error deleting file:', error);
+      console.error('Error details:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack,
+      });
       return res.status(500).json({
         error: 'Internal server error',
         message: error.message,
+        code: error.code,
       });
     }
   });

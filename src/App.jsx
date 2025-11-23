@@ -25,6 +25,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import TemplateCheckerPage from './pages/TemplateCheckerPage'
 import GCSDebugPage from './pages/GCSDebugPage'
 import PDFFieldInspectorPage from './pages/PDFFieldInspectorPage'
+import DocumentRequirementsPage from './pages/DocumentRequirementsPage'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/document-requirements" element={<DocumentRequirementsPage />} />
 
               {/* Protected Routes */}
               <Route path="/dashboard" element={

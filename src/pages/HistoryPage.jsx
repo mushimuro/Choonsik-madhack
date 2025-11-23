@@ -72,6 +72,8 @@ const HistoryPage = () => {
       const { auth } = await import('../config/firebase')
       const token = await auth.currentUser.getIdToken()
 
+      console.log('Deleting draft:', { gcsPath, userId: currentUser.uid })
+
       // Call Cloud Function to delete from GCS
       const response = await fetch(
         'https://us-central1-choonsik-madhack.cloudfunctions.net/deleteFile',
@@ -90,24 +92,64 @@ const HistoryPage = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
-        throw new Error(errorData.error || 'Failed to delete draft')
+        console.error('Delete failed:', errorData)
+        throw new Error(errorData.message || errorData.error || 'Failed to delete draft')
       }
 
       alert('Draft deleted successfully!')
       await loadDrafts()
     } catch (error) {
       console.error('Error deleting draft:', error)
-      alert('Error deleting draft: ' + error.message)
+      
+      // Check if it's a network error (Cloud Function not deployed)
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        alert(
+          'Unable to delete draft from cloud storage.\n\n' +
+          'The Cloud Function may not be deployed yet.\n\n' +
+          'To deploy, run:\n' +
+          'cd functions\n' +
+          'firebase deploy --only functions\n\n' +
+          'Note: The draft will remain in GCS until the function is deployed.'
+        )
+      } else {
+        alert('Error deleting draft: ' + error.message)
+      }
     }
   }
 
-  const handleDeleteForm = async (formId, formName) => {
+  const handleDeleteForm = async (formId, formName, gcsPath) => {
     if (!window.confirm(`Are you sure you want to delete "${formName}"? This action cannot be undone.`)) {
       return
     }
 
     try {
-      // Delete from localStorage
+      // If it has a GCS path, delete from GCS
+      if (gcsPath) {
+        const { auth } = await import('../config/firebase')
+        const token = await auth.currentUser.getIdToken()
+
+        const response = await fetch(
+          'https://us-central1-choonsik-madhack.cloudfunctions.net/deleteFile',
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: currentUser.uid,
+              filePath: gcsPath,
+            }),
+          }
+        )
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+          throw new Error(errorData.error || 'Failed to delete form')
+        }
+      }
+      
+      // Also delete from localStorage if it exists
       const key = `taxform_${formId}`
       localStorage.removeItem(key)
       console.log('🗑️ Deleted form:', key)
@@ -117,8 +159,36 @@ const HistoryPage = () => {
       alert('Form deleted successfully!')
     } catch (error) {
       console.error('Error deleting form:', error)
-      alert('Error deleting form: ' + error.message)
+      
+      // Check if it's a network error (Cloud Function not deployed)
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        // Still delete from localStorage even if GCS deletion failed
+        const key = `taxform_${formId}`
+        localStorage.removeItem(key)
+        await loadForms()
+        
+        alert(
+          'Form removed from local storage, but could not delete from cloud storage.\n\n' +
+          'The Cloud Function may not be deployed yet.\n\n' +
+          'To deploy, run:\n' +
+          'cd functions\n' +
+          'firebase deploy --only functions'
+        )
+      } else {
+        alert('Error deleting form: ' + error.message)
+      }
     }
+  }
+
+  const handleDownloadPDF = (gcsUrl, fileName) => {
+    // Open the GCS URL in a new tab to download
+    const link = document.createElement('a')
+    link.href = gcsUrl
+    link.download = fileName
+    link.target = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   const getStatusClass = (status) => {
@@ -238,6 +308,7 @@ const HistoryPage = () => {
                             variant="outline"
                             size="small"
                             icon={<FiDownload />}
+                            onClick={() => handleDownloadPDF(item.gcsUrl, item.formName)}
                           >
                             Download
                           </Button>
@@ -245,7 +316,7 @@ const HistoryPage = () => {
                             variant="outline"
                             size="small"
                             icon={<FiTrash2 />}
-                            onClick={() => handleDeleteForm(item.id, item.formName)}
+                            onClick={() => handleDeleteForm(item.id, item.formName, item.gcsPath)}
                             className="btn-delete"
                           >
                             Delete

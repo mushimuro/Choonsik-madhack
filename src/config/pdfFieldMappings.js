@@ -77,17 +77,16 @@ export const WI_FORM_1_MAPPINGS = {
     middleInitial: { pdfField: 'mi', transformer: null },
     lastName: { pdfField: 'lname', transformer: null },
     
-    // SSN is split into 3 fields: ss2 (first 3), ss3 (middle 2), ss4 (last 4)
-    // We'll use a custom transformer to split the SSN
+    // Individual's SSN split into 3 fields: ss3 (first 3), ss2 (middle 2), ss4 (last 4)
     ssn: { 
-      pdfField: null, // Special handling needed
+      pdfField: null,
       transformer: (value) => {
         if (!value) return null
         const cleaned = value.replace(/\D/g, '')
         return {
-          ss2: cleaned.slice(0, 3),   // First 3 digits
-          ss3: cleaned.slice(3, 5),   // Middle 2 digits
-          ss4: cleaned.slice(5, 9),   // Last 4 digits
+          ss3: cleaned.slice(0, 3),   // First 3 digits (111)
+          ss2: cleaned.slice(3, 5),   // Middle 2 digits (22)
+          ss4: cleaned.slice(5, 9),   // Last 4 digits (3333)
         }
       }
     },
@@ -116,16 +115,16 @@ export const WI_FORM_1_MAPPINGS = {
     spouseMiddleInitial: { pdfField: 'smi', transformer: null },
     spouseLastName: { pdfField: 'splname', transformer: null },
     
-    // Spouse SSN split into 3 fields
+    // Spouse SSN split into 3 fields: sss3 (first 3), sss2 (middle 2), sss4 (last 4)
     spouseSSN: { 
       pdfField: null,
       transformer: (value) => {
         if (!value) return null
         const cleaned = value.replace(/\D/g, '')
         return {
-          sss2: cleaned.slice(0, 3),
-          sss3: cleaned.slice(3, 5),
-          sss4: cleaned.slice(5, 9),
+          sss3: cleaned.slice(0, 3),   // First 3 digits (111)
+          sss2: cleaned.slice(3, 5),   // Middle 2 digits (22)
+          sss4: cleaned.slice(5, 9),   // Last 4 digits (3333)
         }
       }
     },

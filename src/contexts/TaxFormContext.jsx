@@ -374,21 +374,79 @@ export function TaxFormProvider({ children }) {
   }, [currentFormId])
 
   /**
-   * Get user's saved forms (from localStorage)
+   * Get user's completed forms from GCS
+   */
+  const getUserCompletedForms = useCallback(async (userId) => {
+    try {
+      const response = await fetch(
+        `https://storage.googleapis.com/storage/v1/b/choonsik-madhack/o?prefix=user-tax-forms/${userId}/`,
+        {
+          method: 'GET',
+        }
+      )
+
+      if (!response.ok) {
+        console.error('Failed to list completed forms from GCS')
+        return []
+      }
+
+      const data = await response.json()
+      const forms = []
+
+      // Filter out draft files and group by form
+      if (data.items) {
+        for (const item of data.items) {
+          // Skip draft files
+          if (item.name.includes('/drafts/')) {
+            continue
+          }
+          
+          // Only include PDF files
+          if (item.name.endsWith('.pdf')) {
+            // Extract form info from path: user-tax-forms/{userId}/{formId}/{filename}
+            const pathParts = item.name.split('/')
+            const formId = pathParts[2] || 'unknown'
+            const fileName = pathParts[3] || item.name
+            
+            forms.push({
+              id: `${formId}_${item.timeCreated}`,
+              formId: formId,
+              formName: fileName.replace('.pdf', ''),
+              formType: 'completed',
+              status: 'completed',
+              savedAt: item.timeCreated,
+              gcsPath: item.name,
+              gcsUrl: `https://storage.googleapis.com/choonsik-madhack/${item.name}`,
+              size: item.size,
+            })
+          }
+        }
+      }
+
+      return forms
+    } catch (error) {
+      console.error('Error listing completed forms from GCS:', error)
+      return []
+    }
+  }, [])
+
+  /**
+   * Get user's saved forms (from localStorage and GCS)
    */
   const getUserForms = useCallback(async (userId) => {
     try {
       setLoading(true)
       const forms = []
       
-      // Scan localStorage for saved forms
+      // 1. Scan localStorage for saved forms (in-progress)
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i)
         if (key && key.startsWith('taxform_')) {
           try {
             const data = JSON.parse(localStorage.getItem(key))
-            if (data.userId === userId) {
+            if (data.userId === userId && data.status !== 'draft') {
               forms.push({
+                id: key.replace('taxform_', ''),
                 formId: key.replace('taxform_', ''),
                 ...data,
               })
@@ -399,6 +457,10 @@ export function TaxFormProvider({ children }) {
         }
       }
       
+      // 2. Fetch completed forms from GCS
+      const completedForms = await getUserCompletedForms(userId)
+      forms.push(...completedForms)
+      
       // Sort by savedAt
       forms.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
       
@@ -408,7 +470,7 @@ export function TaxFormProvider({ children }) {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [getUserCompletedForms])
 
   /**
    * Generate and upload PDF to GCS via Cloud Function

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { FiFileText, FiShield, FiZap, FiCheck } from 'react-icons/fi'
+import { FiFileText, FiShield, FiZap, FiCheck, FiInfo, FiCheckCircle, FiAlertCircle } from 'react-icons/fi'
 import Button from '../components/Common/Button'
 import './HomePage.css'
 
@@ -118,6 +118,130 @@ const HomePage = () => {
                 submission.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Document Requirements Section */}
+      <section className="document-requirements">
+        <div className="container">
+          <div className="section-header-with-icon">
+            <FiInfo className="section-icon" />
+            <h2 className="section-title">What Documents Do You Need?</h2>
+          </div>
+          <p className="section-subtitle">
+            Before you start filing, make sure you have all the necessary documents ready.
+            Click on a form below to see what you need.
+          </p>
+          
+          <div className="requirements-preview-grid">
+            <div className="requirement-preview-card">
+              <div className="requirement-preview-header" style={{ borderLeftColor: '#dc2626' }}>
+                <h3>Wisconsin Form 1</h3>
+                <span className="form-type">WI Resident</span>
+              </div>
+              <div className="requirement-preview-list">
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>W-2 Forms</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>1099 Forms (if applicable)</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>Social Security Number</span>
+                </div>
+                <div className="preview-item">
+                  <FiAlertCircle className="icon-optional" />
+                  <span>Previous year's tax return</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="requirement-preview-card">
+              <div className="requirement-preview-header" style={{ borderLeftColor: '#ea580c' }}>
+                <h3>Wisconsin Form 1-NPR</h3>
+                <span className="form-type">Part-Year/Nonresident</span>
+              </div>
+              <div className="requirement-preview-list">
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>W-2 (WI source income)</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>Residency dates</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>Income by state documentation</span>
+                </div>
+                <div className="preview-item">
+                  <FiAlertCircle className="icon-optional" />
+                  <span>Tax credit documents</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="requirement-preview-card">
+              <div className="requirement-preview-header" style={{ borderLeftColor: '#2563eb' }}>
+                <h3>Federal Form 1040</h3>
+                <span className="form-type">U.S. Resident</span>
+              </div>
+              <div className="requirement-preview-list">
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>W-2 Forms</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>1099-INT / DIV</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>SSN / ITIN</span>
+                </div>
+                <div className="preview-item">
+                  <FiAlertCircle className="icon-optional" />
+                  <span>1098-T, 1098-E (if applicable)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="requirement-preview-card">
+              <div className="requirement-preview-header" style={{ borderLeftColor: '#7c3aed' }}>
+                <h3>Federal Form 1040-NR</h3>
+                <span className="form-type">F-1/J-1 Students</span>
+              </div>
+              <div className="requirement-preview-list">
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>W-2 &amp; 1042-S</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>Passport &amp; Visa info</span>
+                </div>
+                <div className="preview-item">
+                  <FiCheckCircle className="icon-required" />
+                  <span>I-20 or DS-2019</span>
+                </div>
+                <div className="preview-item">
+                  <FiAlertCircle className="icon-optional" />
+                  <span>Tax treaty documentation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="view-full-requirements">
+            <Link to="/document-requirements">
+              <Button variant="primary" size="large" icon={<FiInfo />}>
+                View Details
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

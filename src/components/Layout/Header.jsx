@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-import { FiLogOut, FiUser, FiFileText, FiHome, FiCheckSquare, FiSearch } from 'react-icons/fi'
+import { FiLogOut, FiUser, FiFileText, FiHome, FiCheckSquare, FiSearch, FiInfo } from 'react-icons/fi'
 import './Header.css'
 
 const Header = () => {
@@ -39,13 +39,9 @@ const Header = () => {
                 <FiFileText />
                 <span>History</span>
               </Link>
-              <Link to="/check-templates" className="nav-link">
-                <FiCheckSquare />
-                <span>Check PDFs</span>
-              </Link>
-              <Link to="/pdf-inspector" className="nav-link">
-                <FiSearch />
-                <span>Inspect Fields</span>
+              <Link to="/document-requirements" className="nav-link">
+                <FiInfo />
+                <span>Documents Needed</span>
               </Link>
               <Link to="/profile" className="nav-link">
                 <FiUser />
@@ -58,6 +54,9 @@ const Header = () => {
             </>
           ) : (
             <>
+              <Link to="/document-requirements" className="nav-link">
+                Documents Needed
+              </Link>
               <Link to="/login" className="nav-link">
                 Login
               </Link>
