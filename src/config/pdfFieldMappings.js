@@ -24,6 +24,18 @@ export const TRANSFORMERS = {
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`
   },
   
+  // Capitalize first letter, lowercase rest (for cities)
+  capitalizeFirst: (value) => {
+    if (!value) return ''
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+  },
+  
+  // Uppercase all letters (for states)
+  uppercase: (value) => {
+    if (!value) return ''
+    return value.toUpperCase()
+  },
+  
   // Format SSN with or without dashes
   ssnNoDashes: (value) => value ? value.replace(/-/g, '') : '',
   ssnWithDashes: (value) => {
@@ -81,8 +93,9 @@ export const WI_FORM_1_MAPPINGS = {
     },
     
     address: { pdfField: 'address', transformer: null },
-    city: { pdfField: 'city', transformer: null },
-    state: { pdfField: 'state', transformer: null },
+    apt: { pdfField: 'apt', transformer: null },
+    city: { pdfField: 'city', transformer: TRANSFORMERS.capitalizeFirst },
+    state: { pdfField: 'state', transformer: TRANSFORMERS.uppercase },
     zipCode: { pdfField: 'zip', transformer: null },
     
     // Phone is split: area code and number
@@ -143,7 +156,7 @@ export const WI_FORM_1_MAPPINGS = {
 
 /**
  * Federal Form 1040 Field Mappings
- * NOTE: These are EXAMPLE field names. Replace with actual PDF field names!
+ * ACTUAL field names from 2024-fed-1040.pdf
  */
 export const FORM_1040_MAPPINGS = {
   formId: 'form_1040',
@@ -151,11 +164,94 @@ export const FORM_1040_MAPPINGS = {
   templateFile: '2024-fed-1040.pdf',
   
   fields: {
-    // Similar structure as above
-    firstName: { pdfField: 'f1_01', transformer: null },
-    lastName: { pdfField: 'f1_02', transformer: null },
-    ssn: { pdfField: 'f1_03', transformer: TRANSFORMERS.ssnNoDashes },
-    // ... add more fields based on actual PDF inspection
+    // Personal Information - Page 1
+    // First name and middle initial go in the same field (f1_04)
+    firstName: { 
+      pdfField: 'topmostSubform[0].Page1[0].f1_04[0]', 
+      transformer: (value, allData) => {
+        // Combine first name and middle initial
+        const middleInitial = allData.middleInitial || ''
+        return middleInitial ? `${value} ${middleInitial}` : value
+      }
+    },
+    middleInitial: { pdfField: null, transformer: null }, // Combined with firstName
+    lastName: { pdfField: 'topmostSubform[0].Page1[0].f1_05[0]', transformer: null },
+    
+    // SSN goes in f1_06 as a single field (max 9 characters - just digits, no spaces or dashes)
+    ssn: { 
+      pdfField: 'topmostSubform[0].Page1[0].f1_06[0]',
+      transformer: (value) => {
+        if (!value) return null
+        // Remove all non-digits and ensure exactly 9 characters
+        const cleaned = value.replace(/\D/g, '').slice(0, 9)
+        return cleaned
+      }
+    },
+    
+    // Spouse Information
+    spouseFirstName: { pdfField: 'topmostSubform[0].Page1[0].f1_07[0]', transformer: null },
+    spouseMiddleInitial: { pdfField: 'topmostSubform[0].Page1[0].f1_08[0]', transformer: null },
+    spouseLastName: { pdfField: 'topmostSubform[0].Page1[0].f1_09[0]', transformer: null },
+    
+    // Address
+    address: { pdfField: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_10[0]', transformer: null },
+    apt: { pdfField: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_11[0]', transformer: null },
+    city: { pdfField: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_12[0]', transformer: TRANSFORMERS.capitalizeFirst },
+    state: { pdfField: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_13[0]', transformer: TRANSFORMERS.uppercase },
+    zipCode: { pdfField: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_14[0]', transformer: null },
+    
+    // Filing Status (checkboxes)
+    filingStatus: {
+      pdfField: null,
+      transformer: (value) => {
+        const statusMap = {
+          'single': 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[0]',
+          'married_filing_jointly': 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[1]',
+          'married_filing_separately': 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[2]',
+          'head_of_household': 'topmostSubform[0].Page1[0].c1_3[0]',
+          'qualifying_widow': 'topmostSubform[0].Page1[0].c1_3[1]',
+        }
+        const field = statusMap[value]
+        return field ? { [field]: true } : null
+      }
+    },
+    
+    // Income - Line 1 (wages)
+    wages: { pdfField: 'topmostSubform[0].Page1[0].f1_32[0]', transformer: TRANSFORMERS.currency },
+    
+    // Income - Line 2b (taxable interest)
+    taxableInterest: { pdfField: 'topmostSubform[0].Page1[0].f1_35[0]', transformer: TRANSFORMERS.currency },
+    
+    // Income - Line 3b (ordinary dividends)
+    ordinaryDividends: { pdfField: 'topmostSubform[0].Page1[0].f1_37[0]', transformer: TRANSFORMERS.currency },
+    
+    // Income - Line 7 (capital gains)
+    capitalGains: { pdfField: 'topmostSubform[0].Page1[0].f1_44[0]', transformer: TRANSFORMERS.currency },
+    
+    // Income - Line 8 (other income)
+    otherIncome: { pdfField: 'topmostSubform[0].Page1[0].Line4a-11_ReadOrder[0].f1_48[0]', transformer: TRANSFORMERS.currency },
+    
+    // Income - Total income (Line 9)
+    totalIncome: { pdfField: 'topmostSubform[0].Page1[0].f1_57[0]', transformer: TRANSFORMERS.currency },
+    
+    // Adjusted Gross Income (Line 11)
+    adjustedGrossIncome: { pdfField: 'topmostSubform[0].Page1[0].f1_60[0]', transformer: TRANSFORMERS.currency },
+    
+    // Standard Deduction (Line 12)
+    standardDeduction: { pdfField: 'topmostSubform[0].Page2[0].f2_01[0]', transformer: TRANSFORMERS.currency },
+    
+    // Deductions - Page 2
+    medicalExpenses: { pdfField: 'topmostSubform[0].Page2[0].f2_03[0]', transformer: TRANSFORMERS.currency },
+    stateTaxes: { pdfField: 'topmostSubform[0].Page2[0].f2_04[0]', transformer: TRANSFORMERS.currency },
+    mortgageInterest: { pdfField: 'topmostSubform[0].Page2[0].f2_08[0]', transformer: TRANSFORMERS.currency },
+    charitableDonations: { pdfField: 'topmostSubform[0].Page2[0].f2_10[0]', transformer: TRANSFORMERS.currency },
+    
+    // Tax and Credits
+    taxableIncome: { pdfField: 'topmostSubform[0].Page2[0].f2_15[0]', transformer: TRANSFORMERS.currency },
+    tax: { pdfField: 'topmostSubform[0].Page2[0].f2_16[0]', transformer: TRANSFORMERS.currency },
+    
+    // Payments
+    federalIncomeTaxWithheld: { pdfField: 'topmostSubform[0].Page2[0].f2_22[0]', transformer: TRANSFORMERS.currency },
   },
 }
 
@@ -168,39 +264,15 @@ export const FORM_1040NR_MAPPINGS = {
   templateFile: '2024-fed-1040nr.pdf',
   
   fields: {
-    // Similar structure
+    // NOTE: Use /pdf-inspector to get actual field names for this form
     firstName: { pdfField: 'f1_01', transformer: null },
     lastName: { pdfField: 'f1_02', transformer: null },
-    // ... add more fields
-  },
-}
-
-/**
- * Federal W-2 Field Mappings
- */
-export const W2_MAPPINGS = {
-  formId: 'w2',
-  formName: 'W-2',
-  templateFile: '2024-fed-w2.pdf',
-  
-  fields: {
-    // Employer information
-    employerName: { pdfField: 'employerName', transformer: null },
-    employerEIN: { pdfField: 'employerEIN', transformer: null },
-    employerAddress: { pdfField: 'employerAddress', transformer: null },
-    
-    // Employee information
-    firstName: { pdfField: 'firstName', transformer: null },
-    lastName: { pdfField: 'lastName', transformer: null },
-    ssn: { pdfField: 'ssn', transformer: TRANSFORMERS.ssnNoDashes },
-    
-    // Wages and withholding
-    wages: { pdfField: 'box1', transformer: TRANSFORMERS.currency },
-    federalIncomeTaxWithheld: { pdfField: 'box2', transformer: TRANSFORMERS.currency },
-    socialSecurityWages: { pdfField: 'box3', transformer: TRANSFORMERS.currency },
-    socialSecurityTaxWithheld: { pdfField: 'box4', transformer: TRANSFORMERS.currency },
-    medicareWages: { pdfField: 'box5', transformer: TRANSFORMERS.currency },
-    medicareTaxWithheld: { pdfField: 'box6', transformer: TRANSFORMERS.currency },
+    address: { pdfField: 'address', transformer: null },
+    apt: { pdfField: 'apt', transformer: null },
+    city: { pdfField: 'city', transformer: TRANSFORMERS.capitalizeFirst },
+    state: { pdfField: 'state', transformer: TRANSFORMERS.uppercase },
+    zipCode: { pdfField: 'zip', transformer: null },
+    // ... add more fields using /pdf-inspector
   },
 }
 
@@ -212,7 +284,7 @@ export function getFieldMapping(formId) {
     'wi_form_1': WI_FORM_1_MAPPINGS,
     'form_1040': FORM_1040_MAPPINGS,
     'form_1040nr': FORM_1040NR_MAPPINGS,
-    'w2': W2_MAPPINGS,
+    'wi_form_1npr': WI_FORM_1_MAPPINGS, // Use same mappings as Form 1 for now
   }
   
   return mappings[formId] || null
@@ -245,7 +317,8 @@ export function mapFormDataToPDF(formData, formId) {
     
     // Apply transformer if exists
     if (fieldConfig.transformer) {
-      value = fieldConfig.transformer(value)
+      // Pass both the value and the entire formData object
+      value = fieldConfig.transformer(value, formData)
       
       // Handle transformers that return multiple fields (like SSN split)
       if (value && typeof value === 'object') {
@@ -267,7 +340,6 @@ export default {
   WI_FORM_1_MAPPINGS,
   FORM_1040_MAPPINGS,
   FORM_1040NR_MAPPINGS,
-  W2_MAPPINGS,
   getFieldMapping,
   mapFormDataToPDF,
   TRANSFORMERS,

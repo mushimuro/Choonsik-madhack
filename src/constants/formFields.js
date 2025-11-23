@@ -47,6 +47,13 @@ export const PERSONAL_INFO_FIELDS = [
     placeholder: '123 Main St',
   },
   {
+    name: 'apt',
+    label: 'Apt/Unit # (if applicable)',
+    type: 'text',
+    required: false,
+    placeholder: 'Apt 123',
+  },
+  {
     name: 'city',
     label: 'City',
     type: 'text',
