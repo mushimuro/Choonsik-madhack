@@ -12,12 +12,14 @@ import './DashboardPage.css'
 
 const DashboardPage = () => {
   const { currentUser } = useAuth()
-  const { getUserForms } = useTaxForm()
+  const { getUserForms, getUserDrafts } = useTaxForm()
   const [recentForms, setRecentForms] = useState([])
+  const [drafts, setDrafts] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     loadRecentForms()
+    loadDrafts()
   }, [])
 
   const loadRecentForms = async () => {
@@ -25,23 +27,23 @@ const DashboardPage = () => {
       setLoading(true)
       const forms = await getUserForms(currentUser.uid)
       
-      // Transform GCP bucket data to match the expected format
-      const transformedForms = forms.map(form => ({
-        id: form.formId,
-        formName: form.latestFormData?.metadata?.formName || 'Unknown Form',
-        formType: form.latestFormData?.metadata?.formType || 'unknown',
-        status: form.latestFormData?.metadata?.status || 'draft',
-        createdAt: {
-          toDate: () => new Date(form.latestFormData?.metadata?.timestamp || Date.now())
-        },
-        totalFiles: form.totalFiles,
-      }))
+      // Filter out drafts, only show completed or in-progress forms
+      const completedForms = forms.filter(form => form.status !== 'draft')
       
-      setRecentForms(transformedForms.slice(0, 5))
+      setRecentForms(completedForms.slice(0, 5))
     } catch (error) {
       console.error('Error loading forms:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadDrafts = async () => {
+    try {
+      const draftsList = await getUserDrafts(currentUser.uid)
+      setDrafts(draftsList.slice(0, 5))
+    } catch (error) {
+      console.error('Error loading drafts:', error)
     }
   }
 
@@ -97,6 +99,45 @@ const DashboardPage = () => {
             </Card>
           </div>
 
+          {/* Saved Drafts */}
+          <div className="recent-forms-section">
+            <Card 
+              title="Saved Drafts"
+              subtitle="Continue editing your saved forms"
+            >
+              {loading ? (
+                <Loading message="Loading drafts..." />
+              ) : drafts.length > 0 ? (
+                <div className="forms-list">
+                  {drafts.map((draft, index) => (
+                    <div key={index} className="form-item">
+                      <div className="form-item-icon">
+                        <FiFileText />
+                      </div>
+                      <div className="form-item-content">
+                        <h4 className="form-item-title">{draft.formName}</h4>
+                        <p className="form-item-meta">
+                          Saved {formatDate(new Date(draft.savedAt))}
+                        </p>
+                      </div>
+                      <Link to={`/forms/${draft.formTemplateId}/input?draft=${encodeURIComponent(draft.gcsUrl)}`}>
+                        <Button variant="outline" size="small">
+                          Edit Draft
+                        </Button>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <FiFileText className="empty-icon" />
+                  <p>No saved drafts</p>
+                  <p className="empty-hint">Click "Save Draft" while filling out a form to save your progress</p>
+                </div>
+              )}
+            </Card>
+          </div>
+
           {/* Recent Forms */}
           <div className="recent-forms-section">
             <Card 
@@ -115,12 +156,12 @@ const DashboardPage = () => {
                       <div className="form-item-content">
                         <h4 className="form-item-title">{form.formName}</h4>
                         <p className="form-item-meta">
-                          Created {formatDate(form.createdAt?.toDate())}
+                          Saved {formatDate(new Date(form.savedAt))}
                         </p>
                       </div>
                       <div className="form-item-status">
                         {getStatusIcon(form.status)}
-                        <span>{FORM_STATUS_LABELS[form.status]}</span>
+                        <span>{FORM_STATUS_LABELS[form.status] || form.status}</span>
                       </div>
                     </div>
                   ))}

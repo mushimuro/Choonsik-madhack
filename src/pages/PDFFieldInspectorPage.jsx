@@ -143,11 +143,14 @@ const PDFFieldInspectorPage = () => {
                       <th>Field Name</th>
                       <th>Type</th>
                       <th>Current Value</th>
+                      <th>Read Only</th>
+                      <th>Required</th>
+                      <th>Max Length</th>
                     </tr>
                   </thead>
                   <tbody>
                     {fields.map((field, index) => (
-                      <tr key={index}>
+                      <tr key={index} className={field.isReadOnly ? 'readonly-field' : ''}>
                         <td>{index + 1}</td>
                         <td>
                           <code>{field.name}</code>
@@ -163,6 +166,25 @@ const PDFFieldInspectorPage = () => {
                               ? '(empty)'
                               : String(field.value)}
                           </code>
+                        </td>
+                        <td>
+                          {field.isReadOnly !== undefined ? (
+                            <span className={field.isReadOnly ? 'badge badge-warning' : 'badge badge-success'}>
+                              {field.isReadOnly ? 'Yes' : 'No'}
+                            </span>
+                          ) : '-'}
+                        </td>
+                        <td>
+                          {field.isRequired !== undefined ? (
+                            <span className={field.isRequired ? 'badge badge-error' : 'badge badge-info'}>
+                              {field.isRequired ? 'Yes' : 'No'}
+                            </span>
+                          ) : '-'}
+                        </td>
+                        <td>
+                          {field.maxLength !== undefined ? (
+                            <code>{field.maxLength}</code>
+                          ) : '-'}
                         </td>
                       </tr>
                     ))}

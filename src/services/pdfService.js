@@ -76,11 +76,37 @@ class PDFService {
         const fieldName = field.getName()
         const fieldType = field.constructor.name
         
-        return {
+        // Get detailed field properties
+        const fieldInfo = {
           name: fieldName,
           type: fieldType,
           value: this.getFieldValue(field, fieldType),
         }
+        
+        // Add text field specific properties
+        if (fieldType === 'PDFTextField' || fieldType === 'PDFTextField2') {
+          try {
+            fieldInfo.maxLength = field.getMaxLength() || 'unlimited'
+            fieldInfo.isReadOnly = field.isReadOnly()
+            fieldInfo.isRequired = field.isRequired()
+            fieldInfo.alignment = field.getAlignment()
+          } catch (e) {
+            // Some methods might not be available
+            fieldInfo.propertiesError = e.message
+          }
+        }
+        
+        // Add checkbox specific properties
+        if (fieldType === 'PDFCheckBox' || fieldType === 'PDFCheckBox2') {
+          try {
+            fieldInfo.isReadOnly = field.isReadOnly()
+            fieldInfo.isRequired = field.isRequired()
+          } catch (e) {
+            fieldInfo.propertiesError = e.message
+          }
+        }
+        
+        return fieldInfo
       })
     } catch (error) {
       throw new Error(`Error getting form fields: ${error.message}`)

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useTaxForm } from '../contexts/TaxFormContext'
 import { toast } from 'react-toastify'
@@ -7,15 +7,18 @@ import { WI_FORM_1_SECTIONS } from '../constants/formFields'
 import FormField from '../components/Forms/FormField'
 import Button from '../components/Common/Button'
 import Card from '../components/Common/Card'
+import Loading from '../components/Common/Loading'
 import { useForm } from '../hooks/useForm'
 import './TaxFormInputPage.css'
 
 const TaxFormInputPage = () => {
   const { formId } = useParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { currentUser } = useAuth()
-  const { currentForm, formData, updateFormData, saveFormData } = useTaxForm()
+  const { currentForm, formData, updateFormData, saveFormData, saveDraftToGCS, loadDraftFromGCS } = useTaxForm()
   const [currentSection, setCurrentSection] = useState(0)
+  const [loadingDraft, setLoadingDraft] = useState(false)
 
   // Get sections for the current form (defaulting to WI Form 1 for now)
   const sections = WI_FORM_1_SECTIONS
@@ -31,16 +34,33 @@ const TaxFormInputPage = () => {
   } = useForm(formData, sections[currentSection]?.fields || [])
 
   useEffect(() => {
-    if (!currentForm) {
+    // Check if loading a draft from GCS
+    const draftUrl = searchParams.get('draft')
+    if (draftUrl) {
+      loadDraft(draftUrl)
+    } else if (!currentForm) {
       toast.error('Please select a form first')
       navigate('/forms')
     }
-  }, [currentForm, navigate])
+  }, [currentForm, navigate, searchParams])
 
   useEffect(() => {
     // Initialize form values from context
     setFieldValues(formData)
   }, [formData, setFieldValues])
+
+  const loadDraft = async (draftUrl) => {
+    try {
+      setLoadingDraft(true)
+      await loadDraftFromGCS(draftUrl)
+      toast.success('Draft loaded successfully!')
+    } catch (error) {
+      toast.error('Error loading draft: ' + error.message)
+      navigate('/forms')
+    } finally {
+      setLoadingDraft(false)
+    }
+  }
 
   const findNextValidSection = useCallback((startIndex, direction = 1) => {
     let nextIndex = startIndex + direction
@@ -59,9 +79,17 @@ const TaxFormInputPage = () => {
     return direction > 0 ? sections.length : -1
   }, [sections, values])
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Save current section data
     updateFormData(values)
+    
+    // Save to localStorage on navigation
+    try {
+      await saveFormData(currentUser.uid, { status: 'in_progress' })
+      console.log('💾 Saved on Next navigation')
+    } catch (error) {
+      console.error('Error saving on navigation:', error)
+    }
 
     const nextValidSection = findNextValidSection(currentSection, 1)
     
@@ -73,8 +101,17 @@ const TaxFormInputPage = () => {
     }
   }
 
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
     updateFormData(values)
+    
+    // Save to localStorage on navigation
+    try {
+      await saveFormData(currentUser.uid, { status: 'in_progress' })
+      console.log('💾 Saved on Previous navigation')
+    } catch (error) {
+      console.error('Error saving on navigation:', error)
+    }
+    
     const prevValidSection = findNextValidSection(currentSection, -1)
     
     if (prevValidSection >= 0) {
@@ -96,11 +133,29 @@ const TaxFormInputPage = () => {
   const handleSaveDraft = async () => {
     try {
       updateFormData(values)
+      
+      // Save to GCS for persistent storage (shows in Dashboard/History)
+      await saveDraftToGCS(currentUser.uid)
+      
+      // Also save to localStorage as backup
       await saveFormData(currentUser.uid, { status: 'draft' })
-      toast.success('Draft saved successfully!')
+      
+      toast.success('Draft saved successfully! You can continue editing from Dashboard or History.')
     } catch (error) {
       toast.error('Error saving draft: ' + error.message)
     }
+  }
+
+  if (loadingDraft) {
+    return (
+      <div className="tax-form-input-page">
+        <div className="container">
+          <Card>
+            <Loading text="Loading your draft..." />
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   if (!currentForm) {

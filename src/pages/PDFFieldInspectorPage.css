@@ -88,6 +88,14 @@
   background: #f7fafc;
 }
 
+.fields-table tr.readonly-field {
+  background: #fef3c7;
+}
+
+.fields-table tr.readonly-field:hover {
+  background: #fde68a;
+}
+
 .fields-table code {
   padding: 0.2rem 0.4rem;
   background: #edf2f7;
@@ -95,6 +103,35 @@
   font-size: 0.85rem;
   color: #2d3748;
   font-family: 'Courier New', monospace;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-warning {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+.badge-error {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.badge-info {
+  background: #dbeafe;
+  color: #1e40af;
 }
 
 .field-type {
@@ -105,12 +142,14 @@
   text-transform: uppercase;
 }
 
-.field-type.pdftextfield {
+.field-type.pdftextfield,
+.field-type.pdftextfield2 {
   background: #e6fffa;
   color: #047857;
 }
 
-.field-type.pdfcheckbox {
+.field-type.pdfcheckbox,
+.field-type.pdfcheckbox2 {
   background: #fef3c7;
   color: #92400e;
 }
