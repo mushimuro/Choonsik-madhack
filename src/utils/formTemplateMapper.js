@@ -13,6 +13,9 @@ export function mapGCSFilesToForms(gcsFiles) {
       templatePath: gcsFile?.path || null,
       available: !!gcsFile,
       fileSize: gcsFile?.size || 0,
+      isFillable: null, // Will be checked separately
+      fieldCount: 0,
+      fields: [],
     }
   })
 }

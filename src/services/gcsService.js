@@ -25,6 +25,8 @@ class GCSService {
     }
     
     const token = await user.getIdToken()
+    console.log('🔑 Got auth token, length:', token.length)
+    
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -175,15 +177,30 @@ class GCSService {
   async listFiles(prefix = '', delimiter = '/') {
     try {
       const url = `${this.apiEndpoint}/storage/v1/b/${this.bucketName}/o?prefix=${encodeURIComponent(prefix)}&delimiter=${delimiter}`
+      console.log('🔗 Request URL:', url)
+      
       const headers = await this.getAuthHeaders()
+      console.log('📋 Request Headers:', Object.keys(headers))
 
       const response = await fetch(url, { headers })
+      console.log('📡 Response Status:', response.status, response.statusText)
       
       if (!response.ok) {
-        throw new Error('Failed to list files')
+        const errorText = await response.text()
+        console.error('❌ API Error Response:', errorText)
+        
+        let errorDetails
+        try {
+          errorDetails = JSON.parse(errorText)
+        } catch (e) {
+          errorDetails = errorText
+        }
+        
+        throw new Error(`Failed to list files: ${response.status} ${response.statusText} - ${JSON.stringify(errorDetails)}`)
       }
 
       const data = await response.json()
+      console.log('📦 Response Data:', data)
       
       const files = (data.items || []).map(item => ({
         name: item.name,
@@ -200,6 +217,7 @@ class GCSService {
 
       return { files, prefixes }
     } catch (error) {
+      console.error('❌ Error in listFiles:', error)
       throw new Error(`Error listing files: ${error.message}`)
     }
   }
@@ -253,20 +271,33 @@ class GCSService {
    * List all form templates (flat structure)
    */
   async listFormTemplates() {
-    const prefix = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/`
-    const { files } = await this.listFiles(prefix, '')
-    
-    // Filter only PDF files
-    const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'))
-    
-    return pdfFiles.map(file => ({
-      fileName: file.name.split('/').pop(),
-      path: file.path,
-      url: file.url,
-      size: file.size,
-      contentType: file.contentType,
-      metadata: file.metadata,
-    }))
+    try {
+      console.log('📂 Listing templates from:', GCS_CONFIG.FORM_TEMPLATES_PATH)
+      const prefix = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/`
+      const { files } = await this.listFiles(prefix, '')
+      
+      console.log('📄 Found files:', files.length)
+      
+      // Filter only PDF files
+      const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'))
+      
+      console.log('📋 PDF files:', pdfFiles.length)
+      
+      const templates = pdfFiles.map(file => ({
+        fileName: file.name.split('/').pop(),
+        path: file.path,
+        url: file.url,
+        size: file.size,
+        contentType: file.contentType,
+        metadata: file.metadata,
+      }))
+      
+      console.log('✅ Templates loaded:', templates)
+      return templates
+    } catch (error) {
+      console.error('❌ Error listing templates:', error)
+      throw error
+    }
   }
 
   /**

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react'
-import gcsService from '../services/gcsService'
+import gcsPublicService from '../services/gcsPublicService'
 
 const TaxFormContext = createContext()
 
@@ -21,11 +21,13 @@ export function TaxFormProvider({ children }) {
 
   /**
    * Load form templates from GCP bucket
+   * Uses public access (templates are public blank forms)
    */
   const loadFormTemplates = useCallback(async () => {
     try {
       setLoading(true)
-      const gcsFiles = await gcsService.listFormTemplates()
+      // Use public access for templates (they're public documents anyway)
+      const gcsFiles = await gcsPublicService.listFormTemplates()
       
       // Dynamically import to avoid circular dependency
       const { mapGCSFilesToForms } = await import('../utils/formTemplateMapper')

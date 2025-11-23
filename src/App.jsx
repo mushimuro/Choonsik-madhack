@@ -22,6 +22,8 @@ import ReviewPage from './pages/ReviewPage'
 import HistoryPage from './pages/HistoryPage'
 import ProfilePage from './pages/ProfilePage'
 import NotFoundPage from './pages/NotFoundPage'
+import TemplateCheckerPage from './pages/TemplateCheckerPage'
+import GCSDebugPage from './pages/GCSDebugPage'
 
 function App() {
   return (
@@ -69,6 +71,16 @@ function App() {
               <Route path="/profile" element={
                 <PrivateRoute>
                   <ProfilePage />
+                </PrivateRoute>
+              } />
+              <Route path="/check-templates" element={
+                <PrivateRoute>
+                  <TemplateCheckerPage />
+                </PrivateRoute>
+              } />
+              <Route path="/debug-gcs" element={
+                <PrivateRoute>
+                  <GCSDebugPage />
                 </PrivateRoute>
               } />
 
