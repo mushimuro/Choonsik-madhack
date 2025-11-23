@@ -163,13 +163,33 @@ class PDFService {
               break
             case 'PDFCheckBox':
             case 'PDFCheckBox2':   // Some PDFs use PDFCheckBox2
-              if (value) {
-                field.check()
+              // Handle checkboxes with export values (for checkbox groups)
+              if (typeof value === 'string' && value !== 'Yes' && value !== 'No') {
+                // Try to select a specific export value (for checkbox groups)
+                try {
+                  field.check(value)
+                  filledCount++
+                  console.log(`✅ Filled ${fieldName} with export value = "${value}"`)
+                } catch (e) {
+                  // Fallback to simple check/uncheck
+                  if (value) {
+                    field.check()
+                  } else {
+                    field.uncheck()
+                  }
+                  filledCount++
+                  console.log(`✅ Filled ${fieldName} = ${value}`)
+                }
               } else {
-                field.uncheck()
+                // Simple boolean check/uncheck
+                if (value) {
+                  field.check()
+                } else {
+                  field.uncheck()
+                }
+                filledCount++
+                console.log(`✅ Filled ${fieldName} = ${value}`)
               }
-              filledCount++
-              console.log(`✅ Filled ${fieldName} = ${value}`)
               break
             case 'PDFRadioGroup':
               field.select(value)

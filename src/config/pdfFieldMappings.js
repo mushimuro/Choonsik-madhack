@@ -129,10 +129,23 @@ export const WI_FORM_1_MAPPINGS = {
       }
     },
     
-    // Filing Status - appears to use 'status' checkbox
+    // Filing Status
+    // NOTE: Wisconsin Form 1 has a single 'status' checkbox field
+    // The value set determines which visual checkbox appears checked on the form
     filingStatus: {
       pdfField: 'status',
-      transformer: TRANSFORMERS.checkmark,
+      transformer: (value) => {
+        // Map to the checkbox export values
+        // These need to match the PDF's internal export values for each option
+        const statusMap = {
+          'single': 'Single',
+          'married_joint': 'Married filing jointly',
+          'married_separate': 'Married filing separately',
+          'head_of_household': 'Head of household',
+          'qualifying_widow': 'Qualifying widow(er)',
+        }
+        return statusMap[value] || 'Single'
+      }
     },
     
     // Income - Line numbers from the form
@@ -263,15 +276,152 @@ export const FORM_1040NR_MAPPINGS = {
   templateFile: '2024-fed-1040nr.pdf',
   
   fields: {
-    // NOTE: Use /pdf-inspector to get actual field names for this form
-    firstName: { pdfField: 'f1_01', transformer: null },
-    lastName: { pdfField: 'f1_02', transformer: null },
-    address: { pdfField: 'address', transformer: null },
-    apt: { pdfField: 'apt', transformer: null },
-    city: { pdfField: 'city', transformer: TRANSFORMERS.capitalizeFirst },
-    state: { pdfField: 'state', transformer: TRANSFORMERS.uppercase },
-    zipCode: { pdfField: 'zip', transformer: null },
-    // ... add more fields using /pdf-inspector
+    // Personal Information
+    firstName: { 
+      pdfField: 'topmostSubform[0].Page1[0].f1_4[0]', 
+      transformer: (value, allData) => {
+        const middleInitial = allData.middleInitial || ''
+        return middleInitial ? `${value} ${middleInitial}` : value
+      }
+    },
+    middleInitial: { pdfField: null, transformer: null }, // Combined with firstName
+    lastName: { pdfField: 'topmostSubform[0].Page1[0].f1_5[0]', transformer: null },
+    
+    // SSN (ITIN)
+    ssn: { 
+      pdfField: 'topmostSubform[0].Page1[0].f1_6[0]',
+      transformer: (value) => {
+        if (!value) return null
+        const cleaned = value.replace(/\D/g, '')
+        return cleaned.slice(0, 9) // Max 9 digits
+      }
+    },
+    
+    // Address
+    address: { pdfField: 'topmostSubform[0].Page1[0].f1_7[0]', transformer: null },
+    apt: { pdfField: 'topmostSubform[0].Page1[0].f1_8[0]', transformer: null },
+    city: { pdfField: 'topmostSubform[0].Page1[0].f1_9[0]', transformer: TRANSFORMERS.capitalizeFirstLetter },
+    state: { pdfField: 'topmostSubform[0].Page1[0].f1_10[0]', transformer: TRANSFORMERS.uppercase },
+    zipCode: { pdfField: 'topmostSubform[0].Page1[0].f1_11[0]', transformer: null },
+    
+    // Country Information
+    country: { pdfField: 'topmostSubform[0].Page1[0].f1_12[0]', transformer: null },
+    
+    // Filing Status (checkboxes c1_1[0-4])
+    filingStatus: {
+      pdfField: null,
+      transformer: (value) => {
+        const statusMap = {
+          'single': 'topmostSubform[0].Page1[0].c1_1[0]',
+          'married_joint': 'topmostSubform[0].Page1[0].c1_1[1]',
+          'married_separate': 'topmostSubform[0].Page1[0].c1_1[2]',
+          'head_of_household': 'topmostSubform[0].Page1[0].c1_1[3]',
+          'qualifying_widow': 'topmostSubform[0].Page1[0].c1_1[4]',
+        }
+        return statusMap[value] || null
+      }
+    },
+    
+    // Spouse Information (if married)
+    spouseFirstName: { pdfField: 'topmostSubform[0].Page1[0].f1_7[0]', transformer: null },
+    spouseLastName: { pdfField: 'topmostSubform[0].Page1[0].f1_8[0]', transformer: null },
+    spouseSSN: { 
+      pdfField: 'topmostSubform[0].Page1[0].f1_9[0]',
+      transformer: (value) => {
+        if (!value) return null
+        const cleaned = value.replace(/\D/g, '')
+        return cleaned.slice(0, 9)
+      }
+    },
+    
+    // Dependents (4 rows available)
+    // Row 1
+    dependent1Name: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow1[0].f1_16[0]', transformer: null },
+    dependent1SSN: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow1[0].f1_17[0]', transformer: null },
+    dependent1Relationship: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow1[0].f1_18[0]', transformer: null },
+    
+    // Row 2
+    dependent2Name: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow2[0].f1_19[0]', transformer: null },
+    dependent2SSN: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow2[0].f1_20[0]', transformer: null },
+    dependent2Relationship: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow2[0].f1_21[0]', transformer: null },
+    
+    // Row 3
+    dependent3Name: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow3[0].f1_22[0]', transformer: null },
+    dependent3SSN: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow3[0].f1_23[0]', transformer: null },
+    dependent3Relationship: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow3[0].f1_24[0]', transformer: null },
+    
+    // Row 4
+    dependent4Name: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow4[0].f1_25[0]', transformer: null },
+    dependent4SSN: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow4[0].f1_26[0]', transformer: null },
+    dependent4Relationship: { pdfField: 'topmostSubform[0].Page1[0].Table_Dependents[0].BodyRow4[0].f1_27[0]', transformer: null },
+    
+    // Income Section - Page 1
+    wages: { pdfField: 'topmostSubform[0].Page1[0].f1_29[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    taxExemptInterest: { pdfField: 'topmostSubform[0].Page1[0].f1_30[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    taxableInterest: { pdfField: 'topmostSubform[0].Page1[0].f1_31[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    qualifiedDividends: { pdfField: 'topmostSubform[0].Page1[0].f1_32[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    ordinaryDividends: { pdfField: 'topmostSubform[0].Page1[0].f1_33[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // IRA Distributions
+    iraDistributions: { pdfField: 'topmostSubform[0].Page1[0].f1_34[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    taxableIraDistributions: { pdfField: 'topmostSubform[0].Page1[0].f1_35[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Pensions and Annuities (f1_36, f1_37 are Read Only)
+    pensions: { pdfField: 'topmostSubform[0].Page1[0].f1_38[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    taxablePensions: { pdfField: 'topmostSubform[0].Page1[0].f1_39[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Social Security Benefits
+    socialSecurityBenefits: { pdfField: 'topmostSubform[0].Page1[0].f1_40[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    taxableSocialSecurity: { pdfField: 'topmostSubform[0].Page1[0].f1_41[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Capital Gains
+    capitalGains: { pdfField: 'topmostSubform[0].Page1[0].f1_42[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Other Income
+    otherIncome: { pdfField: 'topmostSubform[0].Page1[0].f1_43[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Total Income (f1_48 is Read Only)
+    totalIncome: { pdfField: 'topmostSubform[0].Page1[0].f1_44[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Adjustments to Income
+    educatorExpenses: { pdfField: 'topmostSubform[0].Page1[0].f1_45[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    businessExpenses: { pdfField: 'topmostSubform[0].Page1[0].f1_46[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    hsaDeduction: { pdfField: 'topmostSubform[0].Page1[0].f1_47[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Total Adjustments
+    totalAdjustments: { pdfField: 'topmostSubform[0].Page1[0].f1_49[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Adjusted Gross Income
+    adjustedGrossIncome: { pdfField: 'topmostSubform[0].Page1[0].f1_50[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Page 2 - Standard Deduction and Itemized Deductions
+    standardDeduction: { pdfField: 'topmostSubform[0].Page2[0].f2_1[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Itemized Deductions
+    medicalExpenses: { pdfField: 'topmostSubform[0].Page2[0].f2_3[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    stateTaxes: { pdfField: 'topmostSubform[0].Page2[0].f2_4[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    mortgageInterest: { pdfField: 'topmostSubform[0].Page2[0].f2_5[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    charitableDonations: { pdfField: 'topmostSubform[0].Page2[0].f2_6[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Tax and Credits (f2_22, f2_25 are Read Only)
+    taxableIncome: { pdfField: 'topmostSubform[0].Page2[0].f2_15[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    tax: { pdfField: 'topmostSubform[0].Page2[0].f2_16[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Payments
+    federalIncomeTaxWithheld: { pdfField: 'topmostSubform[0].Page2[0].f2_23[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    estimatedTaxPayments: { pdfField: 'topmostSubform[0].Page2[0].f2_24[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Refund or Amount Owed
+    refund: { pdfField: 'topmostSubform[0].Page2[0].f2_30[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    amountOwed: { pdfField: 'topmostSubform[0].Page2[0].f2_33[0]', transformer: TRANSFORMERS.currencyDollarsOnly },
+    
+    // Bank Information for Direct Deposit
+    routingNumber: { pdfField: 'topmostSubform[0].Page2[0].RoutingNo[0].f2_31[0]', transformer: null },
+    accountNumber: { pdfField: 'topmostSubform[0].Page2[0].AccountNo[0].f2_32[0]', transformer: null },
+    
+    // Preparer Information
+    preparerName: { pdfField: 'topmostSubform[0].Page2[0].f2_37[0]', transformer: null },
+    preparerPhone: { pdfField: 'topmostSubform[0].Page2[0].f2_40[0]', transformer: null },
   },
 }
 
