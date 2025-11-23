@@ -129,25 +129,6 @@ export const WI_FORM_1_MAPPINGS = {
       }
     },
     
-    // Filing Status
-    // NOTE: Wisconsin Form 1 has a single 'status' checkbox field
-    // The value set determines which visual checkbox appears checked on the form
-    filingStatus: {
-      pdfField: 'status',
-      transformer: (value) => {
-        // Map to the checkbox export values
-        // These need to match the PDF's internal export values for each option
-        const statusMap = {
-          'single': 'Single',
-          'married_joint': 'Married filing jointly',
-          'married_separate': 'Married filing separately',
-          'head_of_household': 'Head of household',
-          'qualifying_widow': 'Qualifying widow(er)',
-        }
-        return statusMap[value] || 'Single'
-      }
-    },
-    
     // Income - Line numbers from the form
     wages: { pdfField: '3wages', transformer: TRANSFORMERS.currency },
     taxableInterest: { pdfField: '4', transformer: TRANSFORMERS.currency },

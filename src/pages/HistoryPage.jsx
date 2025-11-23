@@ -244,8 +244,9 @@ const HistoryPage = () => {
         ) : filteredItems.length > 0 ? (
           <div className="forms-grid">
             {filteredItems.map((item, index) => {
-              // Check if this is a draft or a form
-              const isDraft = item.gcsUrl !== undefined
+              // Check if this is a draft (JSON file) or completed form (PDF)
+              const isDraft = item.status === 'draft'
+              const isCompleted = item.status === 'completed'
               
               return (
                 <Card key={isDraft ? index : item.id} hoverable>

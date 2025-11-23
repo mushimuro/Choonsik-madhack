@@ -19,9 +19,13 @@ const TaxFormInputPage = () => {
   const { currentForm, formData, updateFormData, saveFormData, saveDraftToGCS, loadDraftFromGCS } = useTaxForm()
   const [currentSection, setCurrentSection] = useState(0)
   const [loadingDraft, setLoadingDraft] = useState(false)
+  const [hasLoadedDraft, setHasLoadedDraft] = useState(false)
 
   // Get sections for the current form (defaulting to WI Form 1 for now)
   const sections = WI_FORM_1_SECTIONS
+
+  // 👇 read draft param once per render
+  const draftUrl = searchParams.get('draft') || null
 
   const { 
     values, 
@@ -36,34 +40,27 @@ const TaxFormInputPage = () => {
     touchAllFields
   } = useForm(formData, sections[currentSection]?.fields || [])
 
+  // Load draft from GCS only once (if ?draft= is present)
   useEffect(() => {
-    // Check if loading a draft from GCS
-    const draftUrl = searchParams.get('draft')
-    if (draftUrl) {
+    if (draftUrl && !hasLoadedDraft) {
+      // load draft only once
       loadDraft(draftUrl)
-    } else if (!currentForm) {
+      setHasLoadedDraft(true)
+    } else if (!draftUrl && !currentForm) {
+      // no draft param and no form selected → redirect
       toast.error('Please select a form first')
       navigate('/forms')
     }
-  }, [currentForm, navigate, searchParams])
+  }, [draftUrl, hasLoadedDraft, currentForm, navigate])
 
+  // Initialize form values from context
   useEffect(() => {
-    // Initialize form values from context
     setFieldValues(formData)
   }, [formData, setFieldValues])
 
-  const loadDraft = async (draftUrl) => {
-    try {
-      setLoadingDraft(true)
-      await loadDraftFromGCS(draftUrl)
-      toast.success('Draft loaded successfully!')
-    } catch (error) {
-      toast.error('Error loading draft: ' + error.message)
-      navigate('/forms')
-    } finally {
-      setLoadingDraft(false)
-    }
-  }
+  // Current section + condition
+  const section = sections[currentSection]
+  const shouldShowSection = section?.condition ? section.condition(values) : true
 
   const findNextValidSection = useCallback((startIndex, direction = 1) => {
     let nextIndex = startIndex + direction
@@ -82,18 +79,36 @@ const TaxFormInputPage = () => {
     return direction > 0 ? sections.length : -1
   }, [sections, values])
 
+  // Auto-navigate to next valid section if current section is hidden
+  useEffect(() => {
+    if (!shouldShowSection && currentForm) {
+      const nextValid = findNextValidSection(currentSection, 1)
+      if (nextValid < sections.length && nextValid !== currentSection) {
+        setCurrentSection(nextValid)
+      }
+    }
+  }, [shouldShowSection, currentSection, findNextValidSection, currentForm, sections.length])
+
+  const loadDraft = async (draftUrl) => {
+    try {
+      setLoadingDraft(true)
+      await loadDraftFromGCS(draftUrl)
+      toast.success('Draft loaded successfully!')
+    } catch (error) {
+      toast.error('Error loading draft: ' + error.message)
+      navigate('/forms')
+    } finally {
+      setLoadingDraft(false)
+    }
+  }
+
   const handleNext = async () => {
-    // Validate current section before proceeding
     const validation = validate()
     
     if (!validation.isValid) {
-      // Mark all fields as touched to show error messages
       touchAllFields()
-      
-      // Show error message
       toast.error('Please fill out all required fields before continuing.')
-      
-      // Scroll to the first error (optional)
+
       const firstErrorField = Object.keys(validation.errors)[0]
       if (firstErrorField) {
         const element = document.querySelector(`[name="${firstErrorField}"]`)
@@ -103,13 +118,11 @@ const TaxFormInputPage = () => {
         }
       }
       
-      return // Don't proceed to next section
+      return
     }
     
-    // Save current section data
     updateFormData(values)
     
-    // Save to localStorage on navigation
     try {
       await saveFormData(currentUser.uid, { status: 'in_progress' })
       console.log('💾 Saved on Next navigation')
@@ -122,7 +135,6 @@ const TaxFormInputPage = () => {
     if (nextValidSection < sections.length) {
       setCurrentSection(nextValidSection)
     } else {
-      // Last section - proceed to document upload
       handleSaveAndContinue()
     }
   }
@@ -130,7 +142,6 @@ const TaxFormInputPage = () => {
   const handlePrevious = async () => {
     updateFormData(values)
     
-    // Save to localStorage on navigation
     try {
       await saveFormData(currentUser.uid, { status: 'in_progress' })
       console.log('💾 Saved on Previous navigation')
@@ -159,13 +170,8 @@ const TaxFormInputPage = () => {
   const handleSaveDraft = async () => {
     try {
       updateFormData(values)
-      
-      // Save to GCS for persistent storage (shows in Dashboard/History)
       await saveDraftToGCS(currentUser.uid)
-      
-      // Also save to localStorage as backup
       await saveFormData(currentUser.uid, { status: 'draft' })
-      
       toast.success('Draft saved successfully! You can continue editing from Dashboard or History.')
     } catch (error) {
       toast.error('Error saving draft: ' + error.message)
@@ -188,21 +194,6 @@ const TaxFormInputPage = () => {
     return null
   }
 
-  const section = sections[currentSection]
-  
-  // Validate that current section should be shown
-  const shouldShowSection = section.condition ? section.condition(values) : true
-  
-  // If current section shouldn't be shown, find next valid section
-  useEffect(() => {
-    if (!shouldShowSection) {
-      const nextValid = findNextValidSection(currentSection, 1)
-      if (nextValid < sections.length && nextValid !== currentSection) {
-        setCurrentSection(nextValid)
-      }
-    }
-  }, [shouldShowSection, currentSection, findNextValidSection])
-  
   if (!shouldShowSection) {
     return null
   }
@@ -285,4 +276,3 @@ const TaxFormInputPage = () => {
 }
 
 export default TaxFormInputPage
-
