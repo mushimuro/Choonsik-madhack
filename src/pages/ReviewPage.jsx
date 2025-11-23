@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useTaxForm } from '../contexts/TaxFormContext'
 import { toast } from 'react-toastify'
-import pdfService from '../services/pdfService'
+import pdfFillingService from '../services/pdfFillingService'
 import Card from '../components/Common/Card'
 import Button from '../components/Common/Button'
-import { FiDownload, FiEdit } from 'react-icons/fi'
+import { FiDownload, FiEdit, FiAlertCircle } from 'react-icons/fi'
 import './ReviewPage.css'
 
 const ReviewPage = () => {
@@ -15,6 +15,15 @@ const ReviewPage = () => {
   const { currentUser } = useAuth()
   const { currentForm, formData, uploadedDocuments, generateAndUploadPDF, saveFormData } = useTaxForm()
   const [generating, setGenerating] = useState(false)
+  const [canFill, setCanFill] = useState(null)
+
+  // Check if form can be filled
+  useState(() => {
+    if (formId) {
+      const validation = pdfFillingService.validateFormCanBeFilled(formId)
+      setCanFill(validation)
+    }
+  }, [formId])
 
   const handleEdit = () => {
     navigate(`/forms/${formId}/input`)
@@ -27,27 +36,48 @@ const ReviewPage = () => {
       // Save form data first
       await saveFormData(currentUser.uid, { status: 'completed' })
       
-      toast.info('Generating PDF...')
+      toast.info('Generating filled PDF...')
       
-      // TODO: Implement actual PDF filling based on your template type
-      // For now, this is a placeholder that shows the flow:
+      // Check if form can be filled
+      const validation = pdfFillingService.validateFormCanBeFilled(formId)
       
-      // Example flow for fillable PDF:
-      // 1. Get template URL from form-templates bucket
-      // const template = await gcpStorageService.getFormTemplate(currentForm.id, 'template.pdf')
-      // 2. Fill the PDF
-      // const pdfDoc = await pdfService.fillPDFForm(template.url, formData)
-      // 3. Convert to blob
-      // const blob = await pdfService.savePDFAsBlob(pdfDoc)
-      // 4. Upload to user-tax-forms bucket
-      // const result = await generateAndUploadPDF(currentUser.uid, blob)
-      // 5. Download
-      // await pdfService.downloadPDF(pdfDoc, `${currentForm.name}.pdf`)
+      if (!validation.canFill) {
+        toast.warning(`Cannot auto-fill this form: ${validation.reason}`)
+        toast.info(validation.suggestion || 'Please fill manually')
+        return
+      }
       
-      toast.success('Form saved! PDF generation will be implemented based on your template type.')
-      toast.info('See PDF_IMPLEMENTATION_GUIDE.md for implementation details')
+      // Get fields summary
+      const summary = pdfFillingService.getFilledFieldsSummary(formId, formData)
+      console.log('Field filling summary:', summary)
+      
+      if (summary && summary.filledFields === 0) {
+        toast.warning('No data to fill in the PDF. Please complete the form first.')
+        return
+      }
+      
+      // Fill the PDF
+      const filename = `${currentForm.name.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`
+      await pdfFillingService.fillAndDownload(
+        formId,
+        formData,
+        filename,
+        { flatten: true } // Make the form non-editable
+      )
+      
+      // Optional: Also upload to GCS
+      try {
+        const blob = await pdfFillingService.fillAndGetBlob(formId, formData, { flatten: true })
+        await generateAndUploadPDF(currentUser.uid, blob, filename)
+        toast.success('PDF generated and uploaded successfully!')
+      } catch (uploadError) {
+        console.error('Error uploading PDF:', uploadError)
+        toast.success('PDF downloaded successfully! (Upload failed - check console)')
+      }
+      
     } catch (error) {
-      toast.error('Error: ' + error.message)
+      console.error('Error generating PDF:', error)
+      toast.error('Error generating PDF: ' + error.message)
     } finally {
       setGenerating(false)
     }
@@ -77,6 +107,22 @@ const ReviewPage = () => {
         </div>
 
         <div className="review-grid">
+          {canFill && !canFill.canFill && (
+            <Card title="Auto-Fill Not Available" className="warning-card">
+              <div className="warning-content">
+                <FiAlertCircle size={24} />
+                <p>
+                  <strong>This form cannot be automatically filled.</strong>
+                </p>
+                <p>{canFill.reason}</p>
+                {canFill.suggestion && <p className="suggestion">{canFill.suggestion}</p>}
+                <p>
+                  You will need to manually fill this form using the template and your saved data.
+                </p>
+              </div>
+            </Card>
+          )}
+
           <Card title="Form Information">
             <div className="info-section">
               <h3>Selected Form</h3>

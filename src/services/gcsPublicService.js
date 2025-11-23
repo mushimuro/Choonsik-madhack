@@ -72,6 +72,14 @@ class GCSPublicService {
   }
 
   /**
+   * Get template URL (with form-templates prefix)
+   */
+  getTemplateUrl(filename) {
+    const path = `${GCS_CONFIG.FORM_TEMPLATES_PATH}/${filename}`
+    return `${this.baseUrl}/${path}`
+  }
+
+  /**
    * Test if a file is publicly accessible
    */
   async testFileAccess(path) {

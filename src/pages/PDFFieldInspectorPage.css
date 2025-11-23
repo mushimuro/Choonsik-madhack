@@ -1,0 +1,199 @@
+.pdf-inspector-page {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.inspector-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.form-selector {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-selector label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-selector select {
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.form-selector select:hover {
+  border-color: #667eea;
+}
+
+.form-selector select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c00;
+}
+
+.fields-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.fields-table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.fields-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.fields-table th {
+  background: #f7fafc;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.fields-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fields-table tr:hover {
+  background: #f7fafc;
+}
+
+.fields-table code {
+  padding: 0.2rem 0.4rem;
+  background: #edf2f7;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #2d3748;
+  font-family: 'Courier New', monospace;
+}
+
+.field-type {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.field-type.pdftextfield {
+  background: #e6fffa;
+  color: #047857;
+}
+
+.field-type.pdfcheckbox {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.field-type.pdfradiogroup {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.field-type.pdfdropdown {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.instructions {
+  line-height: 1.8;
+}
+
+.instructions h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #2d3748;
+}
+
+.instructions ol {
+  padding-left: 1.5rem;
+}
+
+.instructions li {
+  margin-bottom: 0.75rem;
+}
+
+.instructions ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.instructions code {
+  padding: 0.2rem 0.4rem;
+  background: #edf2f7;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #e53e3e;
+  font-family: 'Courier New', monospace;
+}
+
+.code-example {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+.no-fields-message {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+}
+
+.no-fields-message strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .inspector-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fields-table {
+    font-size: 0.8rem;
+  }
+
+  .fields-table th,
+  .fields-table td {
+    padding: 0.5rem;
+  }
+}
+

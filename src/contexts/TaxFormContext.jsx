@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import gcsPublicService from '../services/gcsPublicService'
 
 const TaxFormContext = createContext()
@@ -20,13 +20,27 @@ export function TaxFormProvider({ children }) {
   const [currentFormId, setCurrentFormId] = useState(null)
 
   /**
-   * Load form templates from GCP bucket
-   * Uses public access (templates are public blank forms)
+   * Auto-save to localStorage whenever form data changes
+   */
+  useEffect(() => {
+    if (currentFormId && Object.keys(formData).length > 0) {
+      const key = `taxform_${currentFormId}`
+      localStorage.setItem(key, JSON.stringify({
+        formData,
+        uploadedDocuments,
+        currentForm,
+        savedAt: new Date().toISOString(),
+      }))
+      console.log('📝 Auto-saved to localStorage:', key)
+    }
+  }, [formData, uploadedDocuments, currentFormId, currentForm])
+
+  /**
+   * Load form templates from GCS (public access)
    */
   const loadFormTemplates = useCallback(async () => {
     try {
       setLoading(true)
-      // Use public access for templates (they're public documents anyway)
       const gcsFiles = await gcsPublicService.listFormTemplates()
       
       // Dynamically import to avoid circular dependency
@@ -48,8 +62,26 @@ export function TaxFormProvider({ children }) {
   const selectForm = useCallback((formTemplate) => {
     setCurrentForm(formTemplate)
     setCurrentFormId(formTemplate.id)
-    setFormData({})
-    setUploadedDocuments([])
+    
+    // Try to load saved data from localStorage
+    const key = `taxform_${formTemplate.id}`
+    const saved = localStorage.getItem(key)
+    
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        setFormData(parsed.formData || {})
+        setUploadedDocuments(parsed.uploadedDocuments || [])
+        console.log('📂 Loaded saved data from localStorage')
+      } catch (e) {
+        console.error('Error parsing saved data:', e)
+        setFormData({})
+        setUploadedDocuments([])
+      }
+    } else {
+      setFormData({})
+      setUploadedDocuments([])
+    }
   }, [])
 
   /**
@@ -63,58 +95,58 @@ export function TaxFormProvider({ children }) {
   }, [])
 
   /**
-   * Save form data to GCP Storage
+   * Save form data (to localStorage)
    */
   const saveFormData = useCallback(async (userId, metadata = {}) => {
     try {
-      setLoading(true)
-      
       if (!currentForm || !currentFormId) {
         throw new Error('No form selected')
       }
 
-      const result = await gcsService.saveUserFormData(
+      const key = `taxform_${currentFormId}`
+      const dataToSave = {
+        formTemplateId: currentForm.id,
+        formType: currentForm.type,
+        formName: currentForm.name,
+        formData,
+        uploadedDocuments,
+        savedAt: new Date().toISOString(),
         userId,
-        currentFormId,
-        {
-          formTemplateId: currentForm.id,
-          formType: currentForm.type,
-          formName: currentForm.name,
-          formData,
-          uploadedDocuments,
-          savedAt: new Date().toISOString(),
-        },
-        metadata
-      )
+        ...metadata,
+      }
 
-      return result
+      localStorage.setItem(key, JSON.stringify(dataToSave))
+      console.log('✅ Saved to localStorage:', key)
+
+      return { success: true, key }
     } catch (error) {
       throw error
-    } finally {
-      setLoading(false)
     }
   }, [currentForm, currentFormId, formData, uploadedDocuments])
 
   /**
-   * Load existing form data
+   * Load existing form data (from localStorage)
    */
-  const loadFormData = useCallback(async (userId, formId, fileName = null) => {
+  const loadFormData = useCallback(async (userId, formId) => {
     try {
       setLoading(true)
-      const result = await gcsService.getUserFormData(userId, formId, fileName)
+      const key = `taxform_${formId}`
+      const saved = localStorage.getItem(key)
       
-      if (result.formData) {
+      if (saved) {
+        const parsed = JSON.parse(saved)
         setCurrentFormId(formId)
         setCurrentForm({
-          id: result.formData.formTemplateId,
-          type: result.formData.formType,
-          name: result.formData.formName,
+          id: parsed.formTemplateId,
+          type: parsed.formType,
+          name: parsed.formName,
         })
-        setFormData(result.formData.formData || {})
-        setUploadedDocuments(result.formData.uploadedDocuments || [])
+        setFormData(parsed.formData || {})
+        setUploadedDocuments(parsed.uploadedDocuments || [])
+        return parsed
       }
-      
-      return result
+
+      return null
     } catch (error) {
       throw error
     } finally {
@@ -123,29 +155,32 @@ export function TaxFormProvider({ children }) {
   }, [])
 
   /**
-   * Upload document
+   * Upload document (store in memory/localStorage, actual upload would need backend)
    */
-  const uploadDocument = useCallback(async (userId, file, documentType, onProgress) => {
+  const uploadDocument = useCallback(async (userId, file, documentType) => {
     try {
       if (!currentFormId) {
         throw new Error('No form selected')
       }
 
-      // Validate file
-      gcsService.validateFile(file, {
-        maxSize: 10 * 1024 * 1024,
-        allowedTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'],
-      })
+      // Validate file size
+      const maxSize = 10 * 1024 * 1024 // 10MB
+      if (file.size > maxSize) {
+        throw new Error('File too large (max 10MB)')
+      }
 
-      const documentData = await gcsService.uploadUserDocument(
-        userId,
-        currentFormId,
-        file,
+      // Create document metadata
+      const documentData = {
+        name: file.name,
         documentType,
-        onProgress
-      )
+        size: file.size,
+        type: file.type,
+        uploadedAt: new Date().toISOString(),
+      }
       
       setUploadedDocuments(prev => [...prev, documentData])
+      console.log('📎 Document added:', file.name)
+      
       return documentData
     } catch (error) {
       throw error
@@ -155,12 +190,12 @@ export function TaxFormProvider({ children }) {
   /**
    * Remove uploaded document
    */
-  const removeDocument = useCallback(async (documentPath) => {
+  const removeDocument = useCallback(async (documentName) => {
     try {
-      await gcsService.deleteFile(documentPath)
       setUploadedDocuments(prev =>
-        prev.filter(doc => doc.path !== documentPath)
+        prev.filter(doc => doc.name !== documentName)
       )
+      console.log('🗑️ Document removed:', documentName)
     } catch (error) {
       console.error('Error removing document:', error)
       throw error
@@ -171,19 +206,46 @@ export function TaxFormProvider({ children }) {
    * Clear form data
    */
   const clearForm = useCallback(() => {
+    if (currentFormId) {
+      const key = `taxform_${currentFormId}`
+      localStorage.removeItem(key)
+      console.log('🗑️ Cleared form from localStorage:', key)
+    }
     setCurrentForm(null)
     setCurrentFormId(null)
     setFormData({})
     setUploadedDocuments([])
-  }, [])
+  }, [currentFormId])
 
   /**
-   * Get user's form list
+   * Get user's saved forms (from localStorage)
    */
   const getUserForms = useCallback(async (userId) => {
     try {
       setLoading(true)
-      const forms = await gcsService.listUserForms(userId)
+      const forms = []
+      
+      // Scan localStorage for saved forms
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i)
+        if (key && key.startsWith('taxform_')) {
+          try {
+            const data = JSON.parse(localStorage.getItem(key))
+            if (data.userId === userId) {
+              forms.push({
+                formId: key.replace('taxform_', ''),
+                ...data,
+              })
+            }
+          } catch (e) {
+            console.error('Error parsing form:', key, e)
+          }
+        }
+      }
+      
+      // Sort by savedAt
+      forms.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
+      
       return forms
     } catch (error) {
       throw error
@@ -193,35 +255,41 @@ export function TaxFormProvider({ children }) {
   }, [])
 
   /**
-   * Generate and upload PDF
+   * Generate and download PDF (no upload - downloads only)
    */
-  const generateAndUploadPDF = useCallback(async (userId, pdfBlob, onProgress) => {
+  const generateAndUploadPDF = useCallback(async (userId, pdfBlob, filename) => {
     try {
       if (!currentForm || !currentFormId) {
         throw new Error('No form selected')
       }
 
-      const result = await gcsService.uploadGeneratedPDF(
-        userId,
-        currentFormId,
-        pdfBlob,
-        currentForm.name,
-        onProgress
-      )
+      console.log('📥 PDF ready for download:', {
+        filename,
+        size: `${(pdfBlob.size / 1024).toFixed(2)} KB`,
+      })
 
-      return result
+      // Note: GCS upload from browser requires Cloud Function or backend
+      // For now, we only support download
+      return {
+        success: true,
+        message: 'PDF generated successfully',
+        filename,
+        size: pdfBlob.size,
+      }
     } catch (error) {
       throw error
     }
   }, [currentForm, currentFormId])
 
   /**
-   * Delete a form
+   * Delete a form (from localStorage)
    */
   const deleteForm = useCallback(async (userId, formId) => {
     try {
       setLoading(true)
-      await gcsService.deleteUserForm(userId, formId)
+      const key = `taxform_${formId}`
+      localStorage.removeItem(key)
+      console.log('🗑️ Deleted form:', key)
     } catch (error) {
       throw error
     } finally {

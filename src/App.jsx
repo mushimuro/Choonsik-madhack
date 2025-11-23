@@ -24,6 +24,7 @@ import ProfilePage from './pages/ProfilePage'
 import NotFoundPage from './pages/NotFoundPage'
 import TemplateCheckerPage from './pages/TemplateCheckerPage'
 import GCSDebugPage from './pages/GCSDebugPage'
+import PDFFieldInspectorPage from './pages/PDFFieldInspectorPage'
 
 function App() {
   return (
@@ -81,6 +82,11 @@ function App() {
               <Route path="/debug-gcs" element={
                 <PrivateRoute>
                   <GCSDebugPage />
+                </PrivateRoute>
+              } />
+              <Route path="/pdf-inspector" element={
+                <PrivateRoute>
+                  <PDFFieldInspectorPage />
                 </PrivateRoute>
               } />
 
