@@ -48,15 +48,6 @@ export const TAX_FORMS = {
     description: 'For nonresident aliens',
     templateFile: '2024-fed-1040nr.pdf', // Actual file in GCS
   },
-  W2: {
-    id: 'w2',
-    name: 'W-2',
-    fullName: 'Wage and Tax Statement',
-    type: FORM_TYPES.FEDERAL,
-    year: 2024,
-    description: 'Wage and tax statement (reference only)',
-    templateFile: '2024-fed-w2.pdf', // Actual file in GCS
-  },
 }
 
 export const DOCUMENT_TYPES = {
