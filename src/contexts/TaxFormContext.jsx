@@ -20,20 +20,9 @@ export function TaxFormProvider({ children }) {
   const [currentFormId, setCurrentFormId] = useState(null)
 
   /**
-   * Auto-save to localStorage whenever form data changes
+   * Auto-save disabled - now saves only on navigation (Previous/Next) or Save Draft
+   * This prevents excessive localStorage writes and gives users more control
    */
-  useEffect(() => {
-    if (currentFormId && Object.keys(formData).length > 0) {
-      const key = `taxform_${currentFormId}`
-      localStorage.setItem(key, JSON.stringify({
-        formData,
-        uploadedDocuments,
-        currentForm,
-        savedAt: new Date().toISOString(),
-      }))
-      console.log('📝 Auto-saved to localStorage:', key)
-    }
-  }, [formData, uploadedDocuments, currentFormId, currentForm])
 
   /**
    * Load form templates from GCS (public access)
@@ -125,6 +114,75 @@ export function TaxFormProvider({ children }) {
   }, [currentForm, currentFormId, formData, uploadedDocuments])
 
   /**
+   * Save draft to GCS (for persistent storage across devices)
+   */
+  const saveDraftToGCS = useCallback(async (userId) => {
+    try {
+      setLoading(true)
+      if (!currentForm || !currentFormId) {
+        throw new Error('No form selected')
+      }
+
+      const draftData = {
+        formTemplateId: currentForm.id,
+        formType: currentForm.type,
+        formName: currentForm.fullName || currentForm.name,
+        formData,
+        uploadedDocuments,
+        status: 'draft',
+        savedAt: new Date().toISOString(),
+        userId,
+      }
+
+      // Generate a unique draft ID (using timestamp and form ID)
+      const draftId = `${currentFormId}_${Date.now()}`
+      const fileName = `draft_${draftId}.json`
+      
+      // Upload to GCS via Cloud Function
+      // Get Firebase Auth token
+      const { auth } = await import('../config/firebase')
+      const token = await auth.currentUser.getIdToken()
+      
+      // Convert draft data to base64
+      const jsonString = JSON.stringify(draftData, null, 2)
+      const jsonBase64 = btoa(unescape(encodeURIComponent(jsonString)))
+
+      const response = await fetch(
+        'https://us-central1-choonsik-madhack.cloudfunctions.net/uploadPDF',
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId,
+            formId: 'drafts',
+            pdfBase64: jsonBase64,
+            filename: fileName,
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        console.error('Upload error response:', errorData)
+        throw new Error(errorData.error || `Failed to save draft to GCS: ${response.status}`)
+      }
+
+      const result = await response.json()
+      console.log('✅ Draft saved to GCS:', result.path)
+
+      return { success: true, draftId, path: result.path }
+    } catch (error) {
+      console.error('Error saving draft to GCS:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [currentForm, currentFormId, formData, uploadedDocuments])
+
+  /**
    * Load existing form data (from localStorage)
    */
   const loadFormData = useCallback(async (userId, formId) => {
@@ -152,6 +210,22 @@ export function TaxFormProvider({ children }) {
     } finally {
       setLoading(false)
     }
+  }, [])
+
+  /**
+   * Clear form and start fresh (no cached data)
+   */
+  const startFreshForm = useCallback((formTemplate) => {
+    setCurrentForm(formTemplate)
+    setCurrentFormId(formTemplate.id)
+    setFormData({})
+    setUploadedDocuments([])
+    
+    // Clear localStorage cache for this form
+    const key = `taxform_${formTemplate.id}`
+    localStorage.removeItem(key)
+    
+    console.log('🆕 Started fresh form:', formTemplate.name)
   }, [])
 
   /**
@@ -199,6 +273,88 @@ export function TaxFormProvider({ children }) {
     } catch (error) {
       console.error('Error removing document:', error)
       throw error
+    }
+  }, [])
+
+  /**
+   * List user's drafts from GCS
+   */
+  const getUserDrafts = useCallback(async (userId) => {
+    try {
+      setLoading(true)
+      const response = await fetch(
+        `https://storage.googleapis.com/storage/v1/b/choonsik-madhack/o?prefix=user-tax-forms/${userId}/drafts/`,
+        {
+          method: 'GET',
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to list drafts from GCS')
+      }
+
+      const data = await response.json()
+      const drafts = []
+
+      // Fetch each draft's content
+      if (data.items) {
+        for (const item of data.items) {
+          try {
+            // Download the draft JSON file
+            const draftResponse = await fetch(
+              `https://storage.googleapis.com/choonsik-madhack/${item.name}`
+            )
+            const draftData = await draftResponse.json()
+            
+            drafts.push({
+              ...draftData,
+              gcsPath: item.name,
+              gcsUrl: `https://storage.googleapis.com/choonsik-madhack/${item.name}`,
+            })
+          } catch (e) {
+            console.error('Error fetching draft:', item.name, e)
+          }
+        }
+      }
+
+      // Sort by savedAt
+      drafts.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
+      
+      return drafts
+    } catch (error) {
+      console.error('Error listing drafts from GCS:', error)
+      return []
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  /**
+   * Load a draft from GCS
+   */
+  const loadDraftFromGCS = useCallback(async (gcsUrl) => {
+    try {
+      setLoading(true)
+      const response = await fetch(gcsUrl)
+      const draftData = await response.json()
+      
+      setCurrentFormId(draftData.formTemplateId)
+      setCurrentForm({
+        id: draftData.formTemplateId,
+        type: draftData.formType,
+        name: draftData.formName,
+        fullName: draftData.formName,
+      })
+      setFormData(draftData.formData || {})
+      setUploadedDocuments(draftData.uploadedDocuments || [])
+      
+      console.log('📂 Loaded draft from GCS')
+      return draftData
+    } catch (error) {
+      console.error('Error loading draft from GCS:', error)
+      throw error
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -348,6 +504,10 @@ export function TaxFormProvider({ children }) {
     getUserForms,
     generateAndUploadPDF,
     deleteForm,
+    saveDraftToGCS,
+    startFreshForm,
+    getUserDrafts,
+    loadDraftFromGCS,
   }
 
   return (

@@ -46,17 +46,20 @@ exports.uploadPDF = functions.https.onRequest((req, res) => {
       }
 
       // Convert base64 to buffer
-      const pdfBuffer = Buffer.from(pdfBase64, 'base64');
+      const fileBuffer = Buffer.from(pdfBase64, 'base64');
 
       // Create file path following GCS structure
       const timestamp = Date.now();
       const filePath = `user-tax-forms/${userId}/${formId}/${filename}`;
 
+      // Determine content type from filename
+      const contentType = filename.endsWith('.json') ? 'application/json' : 'application/pdf';
+
       // Upload to GCS
       const file = bucket.file(filePath);
-      await file.save(pdfBuffer, {
+      await file.save(fileBuffer, {
         metadata: {
-          contentType: 'application/pdf',
+          contentType: contentType,
           metadata: {
             userId,
             formId,
@@ -66,14 +69,14 @@ exports.uploadPDF = functions.https.onRequest((req, res) => {
         },
       });
 
-      console.log(`PDF uploaded: ${filePath}`);
+      console.log(`File uploaded: ${filePath}`);
 
       // Return success
       return res.status(200).json({
         success: true,
         filePath,
         url: `https://storage.googleapis.com/choonsik-madhack/${filePath}`,
-        message: 'PDF uploaded successfully',
+        message: 'File uploaded successfully',
       });
 
     } catch (error) {
@@ -151,3 +154,59 @@ exports.saveFormData = functions.https.onRequest((req, res) => {
   });
 });
 
+/**
+ * Cloud Function to delete a file from GCS
+ * POST /deleteFile
+ * Body: { userId, filePath }
+ */
+exports.deleteFile = functions.https.onRequest((req, res) => {
+  return cors(req, res, async () => {
+    try {
+      if (req.method !== 'POST') {
+        return res.status(405).json({error: 'Method not allowed'});
+      }
+
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({error: 'Unauthorized'});
+      }
+
+      const idToken = authHeader.split('Bearer ')[1];
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
+      const uid = decodedToken.uid;
+
+      const {userId, filePath} = req.body;
+
+      if (uid !== userId) {
+        return res.status(403).json({error: 'Forbidden'});
+      }
+
+      if (!userId || !filePath) {
+        return res.status(400).json({error: 'Missing required fields'});
+      }
+
+      // Verify the file path belongs to the user
+      if (!filePath.startsWith(`user-tax-forms/${userId}/`)) {
+        return res.status(403).json({error: 'Cannot delete files outside your directory'});
+      }
+
+      // Delete the file from GCS
+      const file = bucket.file(filePath);
+      await file.delete();
+
+      console.log(`File deleted: ${filePath}`);
+
+      return res.status(200).json({
+        success: true,
+        message: 'File deleted successfully',
+      });
+
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      return res.status(500).json({
+        error: 'Internal server error',
+        message: error.message,
+      });
+    }
+  });
+});
