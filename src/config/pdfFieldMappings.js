@@ -128,6 +128,28 @@ export const WI_FORM_1_MAPPINGS = {
         }
       }
     },
+
+    filingStatus: {
+      pdfField: null,
+      transformer: (value) => {
+        const statusMap = {
+          single: 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[0]',
+          married_filing_jointly: 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[1]',
+          married_filing_separately: 'topmostSubform[0].Page1[0].FilingStatus_ReadOrder[0].c1_3[2]',
+          head_of_household: 'topmostSubform[0].Page1[0].c1_3[0]',
+          qualifying_widow: 'topmostSubform[0].Page1[0].c1_3[1]',
+        }
+    
+        // Build object where all checkboxes are set to false, except selected one
+        const result = {}
+    
+        for (const key in statusMap) {
+          result[statusMap[key]] = (key === value)
+        }
+    
+        return result
+      }
+    },
     
     // Income - Line numbers from the form
     wages: { pdfField: '3wages', transformer: TRANSFORMERS.currency },
