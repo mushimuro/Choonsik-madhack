@@ -21,7 +21,7 @@ const Header = () => {
       <div className="container header-content">
         <Link to="/" className="logo">
           <FiFileText className="logo-icon" />
-          <span>WI Tax Filler</span>
+          <span>Choonsik Tax Return</span>
         </Link>
 
         <nav className="nav">
